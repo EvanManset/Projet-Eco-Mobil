@@ -58,7 +58,7 @@ La société dispose d’agences de location et d’entrepôts de maintenance, e
 
 * **Situation 1** : Base de données + Activité « Location »
 
- * MySQL + PHP + PHPStorm
+  * MySQL + PHP + PHPStorm
 
 * **Situation 2** : Application de suivi (Direction)
 
