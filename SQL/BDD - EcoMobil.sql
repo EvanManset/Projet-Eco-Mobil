@@ -1,83 +1,76 @@
-drop database airsio;
-create database ecomobil;
-use ecomobil;
--- table tarif
-create table tarif (
-    id_tarif int primary key auto_increment,
-    tarif_horaire decimal(8,2),
-    tarif_demi_journee decimal(8,2),
-    tarif_journee decimal(8,2)
+CREATE DATABASE Ecomobil;
+use Ecomobil;
+
+CREATE TABLE Tarif (
+    id_Tarif INT PRIMARY KEY AUTO_INCREMENT,
+    Tarif_Horaire Decimal(8,2),
+    Tarif_Demi_Journee Decimal(8,2),
+    Tarif_Journee decimal(8,2)
 );
 
--- table type vehicule
-create table type_vehicule (
-    id_type_vehicule int primary key auto_increment,
-    libelle_type varchar(50),
+CREATE TABLE Type_Vehicule (
+    id_Type_Vehicule INT PRIMARY KEY AUTO_INCREMENT,
+    libelle_Type varchar(50),
     nb_place int,
-    id_tarif int,
-    foreign key (id_tarif) references tarif(id_tarif)
+    id_Tarif int,
+    FOREIGN KEY (id_Tarif) REFERENCES Tarif(id_Tarif)
 );
 
--- table agence de location
-create table agence_location (
-    id_agence int primary key auto_increment,
-    nom_agence varchar(100),
-    adresse varchar(255),
-    telephone varchar(15),
-    mail varchar(100),
-    heure_ouverture time
+CREATE TABLE Agence_location (
+    id_Agence INT PRIMARY KEY AUTO_INCREMENT,
+    nom_Agence VARCHAR(100),
+    Adresse VARCHAR(255),
+    Telephone VARCHAR(15),
+    Mail VARCHAR(100),
+    Heure_ouverture TIME
 );
 
--- table vehicule
-create table vehicule (
-    id_vehicule int primary key auto_increment,
-    num_serie varchar(50) unique,
-    marque varchar(50),
-    modele varchar(50),
-    annee int,
-    statut varchar(20),
-    id_type_vehicule int,
-    id_agence int,
-    foreign key (id_type_vehicule) references type_vehicule(id_type_vehicule),
-    foreign key (id_agence) references agence_location(id_agence)
+CREATE TABLE Vehicule (
+    id_Vehicule INT PRIMARY KEY AUTO_INCREMENT,
+    num_serie VARCHAR(50) unique,
+    Marque VARCHAR(50),
+    Modele VARCHAR(50),
+    Annee INT,
+    Statut VARCHAR(20),
+    id_type_vehicule INT,
+    id_agence INT,
+    FOREIGN KEY (id_type_Vehicule) REFERENCES type_Vehicule(id_type_Vehicule),
+    FOREIGN KEY (id_agence) REFERENCES Agence_location(id_agence)
 );
 
--- table client connecter
-create table client_connecter (
-    id_client int primary key auto_increment,
-    nom varchar(50),
-    prenom varchar(50),
-    telephone varchar(15),
-    adresse varchar(255),
-    mail varchar(100),
-    mot_de_passe_securiser varchar(255),
-    date_de_creation datetime
+CREATE TABLE Client_connecter (
+    id_Client INT PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(50),
+    Prenom VARCHAR(50),
+    Telephone VARCHAR(15),
+    Adresse VARCHAR(255),
+    Mail VARCHAR(100),
+    Mot_de_Passe_Securiser VARCHAR(255),
+    Date_de_Creation DATETIME
 );
 
--- table reservation
-create table reservation (
-    id_reservation int primary key auto_increment,
-    date_reservation datetime,
-    duree int,
-    demande_speciale text,
-    date_debut_location datetime,
-    montant_totale decimal(10,2),
-    date_fin_location datetime,
-    statut_reservation varchar(20),
-    id_client int,
-    id_vehicule int,
-    id_tarif int,
-    foreign key (id_client) references client_connecter(id_client),
-    foreign key (id_vehicule) references vehicule(id_vehicule),
-    foreign key (id_tarif) references tarif(id_tarif)
+CREATE TABLE Reservation (
+    id_Reservation INT PRIMARY KEY AUTO_INCREMENT,
+    Date_Reservation DATETIME,
+    Duree INT,
+    Demande_speciale TEXT,
+    date_debut_location DATETIME,
+    montant_totale Decimal(10,2),
+    date_fin_location DATETIME,
+    statut_reservation VARCHAR(20),
+    id_client INT,
+    id_vehicule INT,
+    id_tarif INT,
+    FOREIGN KEY (id_Client) REFERENCES Client_connecter(id_Client),
+    FOREIGN KEY (id_Vehicule) REFERENCES Vehicule(id_Vehicule),
+    FOREIGN KEY (id_Tarif) REFERENCES Tarif(id_Tarif)
 );
 
--- table participants
-create table participants (
-    id_participants int primary key auto_increment,
-    nom varchar(50),
-    prenom varchar(50),
-    age int,
-    id_reservation int,
-    foreign key (id_reservation) references reservation(id_reservation)
+CREATE TABLE Participants (
+    id_Participants INT PRIMARY KEY AUTO_INCREMENT,
+    Nom varchar(50),
+    Prenom VARCHAR(50),
+    Age INT,
+    id_Reservation INT,
+    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation)
 );
