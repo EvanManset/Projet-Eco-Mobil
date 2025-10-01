@@ -65,12 +65,3 @@ CREATE TABLE Reservation (
     FOREIGN KEY (id_Vehicule) REFERENCES Vehicule(id_Vehicule),
     FOREIGN KEY (id_Tarif) REFERENCES Tarif(id_Tarif)
 );
-
-CREATE TABLE Participants (
-    id_Participants INT PRIMARY KEY AUTO_INCREMENT,
-    Nom varchar(50),
-    Prenom VARCHAR(50),
-    Age INT,
-    id_Reservation INT,
-    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation)
-);
