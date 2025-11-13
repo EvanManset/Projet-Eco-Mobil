@@ -1,4 +1,4 @@
-USE ecomobil;
+USE Ecomobil;
 
 -- Table des tarifs
 INSERT INTO Tarif (Tarif_horaire, Tarif_Demi_Journee, Tarif_Journee) VALUES
