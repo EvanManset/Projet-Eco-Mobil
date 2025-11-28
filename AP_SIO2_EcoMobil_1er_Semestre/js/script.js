@@ -20,7 +20,7 @@ function addRow(tableID) {
 			newcell.innerHTML = table.rows[0].cells[i].innerHTML;
 		}
 	}else{
-		 alert("Maximum Passenger per ticket is 5.");
+		 alert("Le nombre maximum de passagers par ticket est de 5.");
 			   
 	}
 }
@@ -33,7 +33,7 @@ function deleteRow(tableID) {
 		var chkbox = row.cells[0].childNodes[0];
 		if(null != chkbox && true == chkbox.checked) {
 			if(rowCount <= 1) { 						// limit the user from removing all the fields
-				alert("Cannot Remove all the Passenger.");
+				alert("Vous ne pouvez pas supprimer tous les passagers.");
 				break;
 			}
 			table.deleteRow(i);

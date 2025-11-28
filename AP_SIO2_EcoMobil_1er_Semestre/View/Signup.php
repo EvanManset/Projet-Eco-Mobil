@@ -271,6 +271,8 @@
                 <li>Au moins une minuscule</li>
                 <li>Au moins un chiffre</li>
                 <li>Au moins un caractère spécial (ex. !@#€%)</li>
+                <li>Pas de mots de passes courants</li>
+                <li>Pas d'espaces</li>
             </ul>
         </div>
 

@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <title>Accueil Eco-Mobil</title>
-    <!-- Assurez-vous d'avoir la meta viewport pour la responsivité -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">

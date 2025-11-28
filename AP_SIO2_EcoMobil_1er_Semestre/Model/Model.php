@@ -1,151 +1,157 @@
 <?php
 
-// ---------------------------------------------------
-// Fonction de connexion à la base de données Eco-Mobil
-// ---------------------------------------------------
+// ============================================================
+// FONCTION CONNECTION A LA BASE DE DONNEES
+// ============================================================
 
 function dbconnect()
 {
-    try
-    {
-        $bdd = new PDO('mysql:host=localhost;dbname=Ecomobil', 'root', '',
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=Ecomobil;charset=utf8', 'root', '',
             array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        //echo "CONNECTION a AIRSIO OK " . '</br>';
         return $bdd;
-    }
-    catch (Exception $e)
-    {
-        die('Erreur de connection à la base : ' . $e->getMessage());
+    } catch (Exception $e) {
+        die('Erreur de connexion : ' . $e->getMessage());
     }
 }
 
-
-// ---------------------------------------------------
-// Vérifie si un email existe déjà dans la base de données
-// ---------------------------------------------------
-
+// ============================================================
+// FONCTION VERIFICATION SI EMAIL EXISTE
+// ============================================================
 function EmailExists($Mail) {
     $bdd = dbconnect();
-    $request = "SELECT COUNT(*) AS count FROM client_connecter WHERE mail = :mail";
-    $result = $bdd->prepare($request);
-    $result->execute([
-        'mail' => $Mail
-    ]);
-
-    // Récupère le résultat
-    $row = $result->fetch(PDO::FETCH_ASSOC);
-
-    // Retourne true si count > 0, sinon false
+    // COUNT(*) est plus rapide que de tout sélectionner
+    $req = "SELECT COUNT(*) AS count FROM client_connecter WHERE Mail = :mail";
+    $res = $bdd->prepare($req);
+    $res->execute(['mail' => $Mail]);
+    $row = $res->fetch(PDO::FETCH_ASSOC);
     return $row['count'] > 0;
 }
 
-// ---------------------------------------------------
-// Ajoute un nouvel utilisateur dans la base de données
-// ---------------------------------------------------
-
-function AddUser($Mail, $Mot_de_Passe_Securiser, $Nom, $Prenom, $Telephone, $Adresse) {
+// ============================================================
+// FONCTION AJOUT D'UN UTILISATEUR
+// ============================================================
+function AddUser($Mail, $MdpHash, $Nom, $Prenom, $Telephone, $Adresse) {
     $bdd = dbconnect();
-
-    $request = "INSERT INTO client_connecter 
-                (Mail, Mot_de_Passe_Securiser, Nom, Prenom, Telephone, Adresse, Date_de_Creation) 
-                VALUES (:Mail, :Mot_de_Passe_Securiser, :Nom, :Prenom, :Telephone, :Adresse, NOW())";
-
-    $result = $bdd->prepare($request);
-    $result->execute([
-        'Mail' => $Mail,
-        'Mot_de_Passe_Securiser' => $Mot_de_Passe_Securiser,
-        'Nom' => $Nom,
-        'Prenom' => $Prenom,
-        'Telephone' => $Telephone,
-        'Adresse' => $Adresse
+    // Requête préparée (INSERT) : Les :mail, :mdp, etc. sont des marqueurs sécurisés
+    $req = "INSERT INTO client_connecter (Mail, Mot_de_Passe_Securiser, Nom, Prenom, Telephone, Adresse, Date_de_Creation) 
+            VALUES (:mail, :mdp, :nom, :prenom, :tel, :adr, NOW())";
+    $res = $bdd->prepare($req);
+    // Exécution avec le tableau de données correspondant aux marqueurs
+    return $res->execute([
+        'mail' => $Mail,
+        'mdp' => $MdpHash,
+        'nom' => $Nom,
+        'prenom' => $Prenom,
+        'tel' => $Telephone,
+        'adr' => $Adresse
     ]);
-
-    return $result;
 }
 
-// ---------------------------------------------------
-// Vérifie la connexion
-// ---------------------------------------------------
-
-function CheckLoginUser($Mail, $Mot_de_Passe_Securiser)
+// ============================================================
+// FONCTION INFOS UTILISATEUR PAR EMAIL
+// ============================================================
+function GetUserByMail($Mail)
 {
     $bdd = dbconnect();
+    $req = "SELECT * FROM client_connecter WHERE Mail = :mail";
+    $res = $bdd->prepare($req);
+    $res->execute(['mail' => $Mail]);
+    return $res->fetch(PDO::FETCH_ASSOC); // Retourne un tableau associatif ou false
+}
 
-    // Récupère l'utilisateur correspondant à cet email
-    $request = "SELECT * FROM client_connecter WHERE Mail = :Mail";
-    $result = $bdd->prepare($request);
-    $result->execute(['Mail' => $Mail]);
-    $user = $result->fetch(PDO::FETCH_ASSOC);
+// ============================================================
+// FONCTION RECUPERATION ID CLIENT PAR EMAIL
+// ============================================================
+function getIdClientByMail($mail)
+{
+    $bdd = dbconnect();
+    $req = "SELECT id_Client FROM client_connecter WHERE Mail = :mail";
+    $res = $bdd->prepare($req);
+    $res->execute(['mail' => $mail]);
+    $row = $res->fetch(PDO::FETCH_ASSOC);
+    return $row ? $row['id_Client'] : null;
+}
 
-    // Si aucun utilisateur trouvé
-    if (!$user) {
-        return "email_not_found";
+// ============================================================
+// FONCTION RECUPERATION DU TARIF HORAIRE PAR ID
+// ============================================================
+function GetPrixTarif($id_tarif) {
+    $bdd = dbconnect();
+    $req = "SELECT Tarif_Horaire FROM tarif WHERE id_Tarif = :id";
+    $res = $bdd->prepare($req);
+    $res->execute(['id' => $id_tarif]);
+    $row = $res->fetch(PDO::FETCH_ASSOC);
+    // floatval assure qu'on retourne bien un nombre à virgule
+    return $row ? floatval($row['Tarif_Horaire']) : 0.0;
+}
+
+// ====================================================================
+// FONCTION RECUPERATION D'UN VEHICULE DISPONIBLE DANS UNE AGENCE
+// ====================================================================
+function FindVehiculeDisponible($nom_agence, $libelle_type, $date_debut, $date_fin)
+{
+    $bdd = dbconnect();
+    // Gestion du formatage
+    $libelle_type = str_replace('_', ' ', $libelle_type);
+
+    // Jointure SQL pour relier Vehicule -> Agence et Vehicule -> Type
+    $req = "SELECT v.id_Vehicule, tv.id_Tarif
+            FROM vehicule v
+            INNER JOIN agence_location a ON v.id_agence = a.id_Agence
+            INNER JOIN type_vehicule tv ON v.id_type_vehicule = tv.id_Type_Vehicule
+            WHERE a.nom_Agence = :nom_agence 
+            AND tv.libelle_Type = :libelle_type
+            AND v.statut = 'disponible'"; // On ne prend que les véhicules physiquement 'disponibles'
+
+    $res = $bdd->prepare($req);
+    $res->execute(['nom_agence' => $nom_agence, 'libelle_type' => $libelle_type]);
+    $vehicules = $res->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($vehicules)) return null; // Aucun véhicule de ce type dans cette agence
+
+    // Pour chaque véhicule trouvé, on vérifie son calendrier de réservations
+    foreach ($vehicules as $vehicule) {
+        if (IsVehiculeLibre($vehicule['id_Vehicule'], $date_debut, $date_fin)) {
+            return $vehicule; // On retourne le premier qui est libre
+        }
     }
-
-    // Vérifie que le mot de passe correspond
-    if ($user['Mot_de_Passe_Securiser'] !== $Mot_de_Passe_Securiser) {
-        return "wrong_password";
-    }
-
-    return $user;
+    return null; // Tous occupés
 }
 
-// ---------------------------------------------------
-// Vérifie la disponibilité d'un véhicule
-// ---------------------------------------------------
-function CheckVehiculeDisponible($Type_Vehicule, $Agence, $Date_Debut, $Date_Fin, $Heure_Debut, $Heure_Fin)
+// ============================================================
+// FONCTION VERIFICATION SI VEHICULE LIBRE
+// ============================================================
+function IsVehiculeLibre($id_vehicule, $date_debut, $date_fin)
 {
     $bdd = dbconnect();
+    // Logique de chevauchement de dates :
+    // Une réservation existe SI (Debut_Existant < Fin_Demandée) ET (Fin_Existante > Debut_Demandé)
+    $req = "SELECT COUNT(*) as nb FROM reservation
+            WHERE id_vehicule = :id_vehicule
+            AND statut_reservation IN ('Réservée', 'En cours', 'confirmée')
+            AND ((date_debut_location < :date_fin AND date_fin_location > :date_debut))";
+    $res = $bdd->prepare($req);
+    $res->execute(['id_vehicule' => $id_vehicule, 'date_debut' => $date_debut, 'date_fin' => $date_fin]);
+    $row = $res->fetch(PDO::FETCH_ASSOC);
 
-    // Vérifie s'il y a des réservations qui se chevauchent pour ce type de véhicule dans cette agence
-    $request = "SELECT COUNT(*) AS count FROM reservation 
-                WHERE Type_Vehicule = :Type_Vehicule 
-                AND Agence = :Agence 
-                AND Statut != 'Annulée'
-                AND (
-                    (Date_Debut <= :Date_Fin AND Date_Fin >= :Date_Debut)
-                )";
-
-    $result = $bdd->prepare($request);
-    $result->execute([
-        'Type_Vehicule' => $Type_Vehicule,
-        'Agence' => $Agence,
-        'Date_Debut' => $Date_Debut,
-        'Date_Fin' => $Date_Fin
-    ]);
-
-    $row = $result->fetch(PDO::FETCH_ASSOC);
-
-    // Si count = 0, le véhicule est disponible
-    return $row['count'] == 0;
+    // Si nb == 0, aucune réservation ne chevauche, donc c'est libre.
+    return $row['nb'] == 0;
 }
 
-// ---------------------------------------------------
-// Ajoute une nouvelle réservation
-// ---------------------------------------------------
-function AddReservation($Mail_Client, $Agence, $Type_Vehicule, $Date_Debut, $Date_Fin, $Heure_Debut, $Heure_Fin, $Options)
+// ============================================================
+// FONCTION ENREGITRANT LA RESERVATION DANS LA BASE DE DONNEES
+// ============================================================
+function AddReservation($id_client, $id_vehicule, $id_tarif, $debut, $fin, $duree, $speciale, $montant)
 {
     $bdd = dbconnect();
-
-    // Génère un numéro de réservation unique
-    $Numero_Reservation = 'RES' . date('Ymd') . rand(1000, 9999);
-
-    $request = "INSERT INTO reservation 
-                (Numero_Reservation, Mail_Client, Agence, Type_Vehicule, Date_Debut, Date_Fin, Heure_Debut, Heure_Fin, Options, Statut, Date_Creation) 
-                VALUES (:Numero_Reservation, :Mail_Client, :Agence, :Type_Vehicule, :Date_Debut, :Date_Fin, :Heure_Debut, :Heure_Fin, :Options, 'Réservé', NOW())";
-
-    $result = $bdd->prepare($request);
-    $result->execute([
-        'Numero_Reservation' => $Numero_Reservation,
-        'Mail_Client' => $Mail_Client,
-        'Agence' => $Agence,
-        'Type_Vehicule' => $Type_Vehicule,
-        'Date_Debut' => $Date_Debut,
-        'Date_Fin' => $Date_Fin,
-        'Heure_Debut' => $Heure_Debut,
-        'Heure_Fin' => $Heure_Fin,
-        'Options' => $Options
+    $req = "INSERT INTO reservation (Date_Reservation, Duree, Demande_speciale, date_debut_location, montant_totale, date_fin_location, statut_reservation, id_client, id_vehicule, id_tarif) 
+            VALUES (NOW(), :duree, :speciale, :debut, :montant, :fin, 'Réservée', :client, :vehicule, :tarif)";
+    $res = $bdd->prepare($req);
+    return $res->execute([
+        'duree' => $duree, 'speciale' => $speciale, 'debut' => $debut,
+        'montant' => $montant, 'fin' => $fin, 'client' => $id_client,
+        'vehicule' => $id_vehicule, 'tarif' => $id_tarif
     ]);
-
-    return $result;
 }
+?>
