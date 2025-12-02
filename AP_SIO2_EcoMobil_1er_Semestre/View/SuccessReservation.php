@@ -84,7 +84,7 @@
     <div class="success-message">
         ✅ Réservation créée avec succès !
     </div>
-    <a href="index.php" class="btn-retour">Retourner à l'accueil</a>
+    <a href="/AP_SIO2_EcoMobil_1er_Semestre/index.php" class="btn-retour">Retour à l'accueil</a>
 </div>
 
 </body>

@@ -4,7 +4,7 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2013, Tech Stream
  * http://techstream.org
  */
@@ -21,7 +21,7 @@ function addRow(tableID) {
 		}
 	}else{
 		 alert("Le nombre maximum de passagers par ticket est de 5.");
-			   
+
 	}
 }
 

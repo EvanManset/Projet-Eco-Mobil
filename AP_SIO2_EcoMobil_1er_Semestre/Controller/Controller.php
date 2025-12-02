@@ -7,28 +7,28 @@ require('model/model.php');
 // ============================================================
 function Signupuser($Nom, $Prenom, $Telephone, $Adresse, $Mail, $Mot_de_Passe_Securiser): bool
 {
-    // Validation de l'email via un filtre PHP natif (très fiable)
+    // 1. Validation de l'email via un filtre PHP natif
     if (!filter_var($Mail, FILTER_VALIDATE_EMAIL)) {
         echo "<div class='error-message-standalone'>❌ Email incorrect</div>";
         return false;
     }
-    // Vérification métier : L'email existe-t-il déjà ?
+    // 2. Vérification métier : L'email existe-t-il déjà ?
     if (EmailExists($Mail)) {
         echo "<div class='error-message-standalone'>❌ Email déjà utilisé</div>";
         return false;
     }
     // 3. Vérification de la complexité du mot de passe
     if (!PasswordValide($Mot_de_Passe_Securiser)) {
-        echo "<div class='error-message-standalone'>❌ Mot de passe incorrect, il doit contenir au moins 8 caractères, une majuscule, une miniscule, un chiffre, un carctère spécial, pas de mot de passes courants et pas d'espaces </div>";
+        echo "<div class='error-message-standalone'>❌ Le mot de passe ne respecte pas les critères de sécurité</div>";
         return false;
     }
 
-    // Hachage du mot de passe (SHA-256).
-    $MdpHash = hash('sha256', $Mot_de_Passe_Securiser);
+    // 4. Hachage du mot de passe (MODIFIÉ POUR PASSWORD_HASH)
+    // PASSWORD_DEFAULT utilise l'algo le plus fort dispo (actuellement Bcrypt) et gère le sel automatiquement.
+    $MdpHash = password_hash($Mot_de_Passe_Securiser, PASSWORD_DEFAULT);
 
-    // Envoi au modèle pour insertion en base
+    // 5. Envoi au modèle pour insertion en base
     if (AddUser($Mail, $MdpHash, $Nom, $Prenom, $Telephone, $Adresse)) {
-        // Si l'insertion marche, on connecte l'utilisateur immédiatement
         $_SESSION['Mail'] = $Mail;
         $_SESSION['Nom'] = $Nom;
         $_SESSION['Prenom'] = $Prenom;
@@ -42,33 +42,31 @@ function Signupuser($Nom, $Prenom, $Telephone, $Adresse, $Mail, $Mot_de_Passe_Se
 // ============================================================
 function Loginuser($Mail, $Mot_de_Passe_Securiser)
 {
-    // Vérification du blocage temporaire
-    // Si un temps de blocage est défini et qu'on est encore avant la fin de ce temps
+    // A. SÉCURITÉ : Vérification du blocage temporaire
     if (isset($_SESSION['blocked_time']) && time() < $_SESSION['blocked_time']) {
-        $wait = ceil(($_SESSION['blocked_time'] - time()) / 60); // Calcul du temps restant en minutes
+        $wait = ceil(($_SESSION['blocked_time'] - time()) / 60);
         echo "<div class='error-message-standalone'>⛔ Trop de tentatives. Réessayez dans $wait minute(s).</div>";
-        return "locked"; // On retourne un état spécifique
+        return "locked";
     }
 
-    // Initialisation du compteur d'essais s'il n'existe pas encore pour cette session
+    // Initialisation du compteur d'essais
     if (!isset($_SESSION['login_attempts'])) {
         $_SESSION['login_attempts'] = 0;
     }
 
-    // Récupération des infos de l'utilisateur depuis la BDD via son mail
+    // B. Récupération des infos de l'utilisateur depuis la BDD
     $user = GetUserByMail($Mail);
 
-    // Hachage du mot de passe saisi pour le comparer à celui en base
-    $MdpHash = hash('sha256', $Mot_de_Passe_Securiser);
+    // C. Comparaison (MODIFIÉ POUR PASSWORD_VERIFY)
+    // On ne hache plus le mot de passe ici. On donne le mot de passe en clair
+    // et le hash stocké en BDD à password_verify qui fait le travail de comparaison.
 
-    // On vérifie si l'utilisateur a été trouvé ($user n'est pas vide) et on vérifie si le hash calculé correspond au hash stocké
-    if ($user && $user['Mot_de_Passe_Securiser'] === $MdpHash) {
+    if ($user && password_verify($Mot_de_Passe_Securiser, $user['Mot_de_Passe_Securiser'])) {
 
-        // SUCCÈS : On réinitialise la sécurité (compteur à 0, blocage supprimé)
+        // SUCCÈS : On réinitialise la sécurité
         $_SESSION['login_attempts'] = 0;
         unset($_SESSION['blocked_time']);
 
-        // On remplit la session avec les infos utiles
         $_SESSION['Mail'] = $user['Mail'];
         $_SESSION['Nom'] = $user['Nom'];
         $_SESSION['Prenom'] = $user['Prenom'];
@@ -78,9 +76,8 @@ function Loginuser($Mail, $Mot_de_Passe_Securiser)
         // ÉCHEC : On incrémente le compteur de tentatives
         $_SESSION['login_attempts']++;
 
-        // Si on atteint 4 échecs consécutifs
         if ($_SESSION['login_attempts'] >= 4) {
-            // On définit un temps de blocage (40 secondes)
+            // Blocage de 40 secondes (pour l'exemple)
             $_SESSION['blocked_time'] = time() + (40);
             echo "<div class='error-message-standalone'>⛔ 4 échecs : Compte bloqué temporairement.</div>";
             return "locked";
@@ -91,40 +88,30 @@ function Loginuser($Mail, $Mot_de_Passe_Securiser)
     }
 }
 
-// ============================================================
-// FONCTION DE DECONNECTION
-// ============================================================
+// Déconnexion simple
 function LogoutUser() {
-    session_unset();    // Vide les variables
-    session_destroy();  // Détruit l'identifiant de session
+    session_unset();
+    session_destroy();
 }
 
 // ============================================================
-// FONCTION DE RÉSERVATION
+// FONCTION DE RÉSERVATION (Inchangée)
 // ============================================================
 function CreateReservation($mail, $agence, $type, $debut, $fin, $h_debut, $h_fin, $speciale)
 {
-    // Concaténation pour créer des formats DATETIME SQL (YYYY-MM-DD HH:MM:SS)
     $dt_debut = $debut . ' ' . $h_debut . ':00';
     $dt_fin = $fin . ' ' . $h_fin . ':00';
 
-    // Validation temporelle : La fin doit être après le début
     if (strtotime($dt_fin) <= strtotime($dt_debut)) {
         echo "<div class='error-message-standalone'>❌ La fin doit être après le début</div>";
         return false;
     }
 
-    // Calcul de la durée en heures
     $duree = round((strtotime($dt_fin) - strtotime($dt_debut)) / 3600, 2);
 
-    // Récupération de l'ID client
     $id_client = getIdClientByMail($mail);
-
-    // Algorithme de recherche de véhicule
-    // Cette fonction vérifie le type, l'agence et surtout les conflits de dates
     $vehicule = FindVehiculeDisponible($agence, $type, $dt_debut, $dt_fin);
 
-    // Si aucun véhicule n'est dispo ou si le client n'est pas trouvé
     if (!$vehicule || !$id_client) {
         echo "<div class='error-message-standalone'>❌ Indisponible pour ces dates ou type.</div>";
         return false;
@@ -133,24 +120,18 @@ function CreateReservation($mail, $agence, $type, $debut, $fin, $h_debut, $h_fin
     $id_v = $vehicule['id_Vehicule'];
     $id_t = $vehicule['id_Tarif'];
 
-    // Récupération du prix unitaire
     $prix = GetPrixTarif($id_t);
-    if ($prix <= 0) $prix = 10; // Valeur par défaut de sécurité
+    if ($prix <= 0) $prix = 10;
 
-    // Calcul du montant total
     $total = $duree * $prix;
 
-    // Enregistrement final en BDD
     if (AddReservation($id_client, $id_v, $id_t, $dt_debut, $dt_fin, $duree, $speciale, $total)) {
         return true;
     }
     return false;
 }
 
-// ============================================================
-// FONCTION DE VERIFICATION DU MOT DE PASSE
-// ============================================================
-
+// Validateur de mot de passe
 function PasswordValide($password) {
     // Vérifie la longueur minimale
     if (strlen($password) < 8) {
@@ -183,3 +164,4 @@ function PasswordValide($password) {
 
     return true;
 }
+?>

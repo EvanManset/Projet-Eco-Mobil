@@ -8,7 +8,6 @@ require('controller/controller.php');
 // ROUTAGE : INSCRIPTION
 // On vérifie si l'URL contient ?action=signupsession
 // ============================================================
-
 if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
 
     // Si la méthode est POST, cela signifie que l'utilisateur a cliqué sur "S'inscrire" dans le formulaire
@@ -29,9 +28,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             // Appel à la fonction du Contrôleur (Signupuser).
             // Si elle renvoie TRUE (succès), on redirige. Sinon, l'erreur est gérée dans le 'else'.
             if (Signupuser($Nom, $Prenom, $Telephone, $Adresse, $Mail, $Mot_de_Passe_Securiser)) {
-                // Succès : Redirection vers la page d'accueil pour éviter de renvoyer le formulaire
+                // Succès : Redirection vers la page d'accueil pour éviter de renvoyer le formulaire (Pattern PRG)
                 header('Location: index.php');
-                exit();
+                exit(); // Toujours mettre exit() après une redirection header()
             } else {
                 // Échec (ex: email déjà pris) : On réaffiche le formulaire d'inscription pour qu'il puisse réessayer
                 require('view/Signup.php');
@@ -50,7 +49,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
 // ROUTAGE : CONNEXION
 // On vérifie si l'URL contient ?action=loginpsession
 // ============================================================
-
 } elseif (isset($_GET['action']) && $_GET['action'] == 'loginpsession') {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -62,7 +60,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             // Appel au contrôleur. Notez que Loginuser renvoie true, false ou "locked"
             $loginResult = Loginuser($Mail, $Mot_de_Passe_Securiser);
 
-            if ($loginResult == true) {
+            if ($loginResult === true) {
                 // Connexion réussie
                 header('Location: index.php');
                 exit();
@@ -86,19 +84,15 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
 // ============================================================
 // ROUTAGE : DÉCONNEXION
 // ============================================================
-
-
 } elseif (isset($_GET['action']) && $_GET['action'] == 'logout') {
     // Appelle la fonction qui détruit la session
     LogoutUser();
     // Redirige ou affiche le menu principal
     require('Menuprincipal.php');
 
-
 // ============================================================
 // ROUTAGE : RÉSERVATION
 // ============================================================
-
 } elseif (isset($_GET['action']) && $_GET['action'] == 'reservationsession') {
 
     // Sécurité CRITIQUE : On empêche l'accès si l'utilisateur n'est pas connecté.
@@ -109,7 +103,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Vérification de la présence de toutes les données nécessaires à la réservation
+        // Vérification de la présence de toutes les données nécessaires à la résa
         if (!empty($_POST['Agence']) && !empty($_POST['Type_Vehicule']) &&
             !empty($_POST['Date_Debut']) && !empty($_POST['Date_Fin']) &&
             !empty($_POST['Heure_Debut']) && !empty($_POST['Heure_Fin'])) {
@@ -121,10 +115,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             $Date_Fin = $_POST['Date_Fin'];
             $Heure_Debut = $_POST['Heure_Debut'];
             $Heure_Fin = $_POST['Heure_Fin'];
+            // Ternaire : si demande spéciale est vide, on met une chaine vide, sinon on prend la valeur
             $demande_speciale = !empty($_POST['Demande_speciale']) ? $_POST['Demande_speciale'] : '';
-            $Mail_Client = $_SESSION['Mail']; // On utilise l'email stocké en session
+            $Mail_Client = $_SESSION['Mail']; // On utilise l'email stocké en session (fiable)
 
-            // Appel au contrôleur pour la logique complexe
+            // Appel au contrôleur pour la logique complexe (calcul prix, vérif dispo)
             $result = CreateReservation($Mail_Client, $Agence, $Type_Vehicule, $Date_Debut, $Date_Fin, $Heure_Debut, $Heure_Fin, $demande_speciale);
 
             if ($result == true) {

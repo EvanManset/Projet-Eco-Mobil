@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation - EcoMobil</title>
-    <script type="text/javascript" src="../AP_SIO2_EcoMobil_1er_Semestre/js/script.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
 
     <link rel="icon" href="View/Eco-Mobil.png" type="image/png">
     <link rel="apple-touch-icon" href="View/Eco-Mobil.png">
@@ -16,20 +16,19 @@
     <style>
         /* --- DÉBUT AJOUT CSS --- */
         /* Style pour les messages d'erreur uniformisés */
-        /* Style unifié pour les messages d'erreur */
         .error-message-standalone {
-            color: #c0392b; /* Rouge texte */
-            background: #ffe6e6; /* Fond rose pâle */
+            color: #c0392b;
+            background: #ffe6e6;
             padding: 12px 25px;
             border-radius: 15px;
-            margin: 20px auto;
+            margin: 20px auto; /* Centré avec marge */
             font-weight: 500;
             font-size: 1em;
             text-align: center;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px #ffffff;
-            max-width: 600px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px var(--light-shadow);
+            max-width: 600px; /* Un peu plus large pour la réservation */
             width: 80%;
-            display: block; /* Force l'affichage en bloc */
+            display: block;
         }
 
         .success-message {
@@ -58,9 +57,13 @@
         body {
             margin: 0;
             display: flex;
-            flex-direction: column;      /* Force l'affichage vertical (l'un sous l'autre) */
-            align-items: center;         /* Centre les éléments horizontalement */
-            justify-content: flex-start; /* Aligne le tout vers le haut */
+
+            /* --- AJOUT IMPORTANT --- */
+            flex-direction: column;  /* Force l'affichage vertical (l'un sous l'autre) */
+            align-items: center;     /* Centre les éléments horizontalement */
+            /* ----------------------- */
+
+            justify-content: flex-start; /* Aligne tout vers le haut */
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--bg-color) 0%, #cacaca 50%, var(--bg-color) 100%);

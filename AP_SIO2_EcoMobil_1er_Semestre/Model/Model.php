@@ -1,9 +1,7 @@
 <?php
+// Model.php
 
-// ============================================================
-// FONCTION CONNECTION A LA BASE DE DONNEES
-// ============================================================
-
+// 1. Connexion à la base de données
 function dbconnect()
 {
     try {
@@ -15,9 +13,7 @@ function dbconnect()
     }
 }
 
-// ============================================================
-// FONCTION VERIFICATION SI EMAIL EXISTE
-// ============================================================
+// Vérifie si un email existe (retourne true/false)
 function EmailExists($Mail) {
     $bdd = dbconnect();
     // COUNT(*) est plus rapide que de tout sélectionner
@@ -28,9 +24,7 @@ function EmailExists($Mail) {
     return $row['count'] > 0;
 }
 
-// ============================================================
-// FONCTION AJOUT D'UN UTILISATEUR
-// ============================================================
+// Ajoute un utilisateur
 function AddUser($Mail, $MdpHash, $Nom, $Prenom, $Telephone, $Adresse) {
     $bdd = dbconnect();
     // Requête préparée (INSERT) : Les :mail, :mdp, etc. sont des marqueurs sécurisés
@@ -48,9 +42,7 @@ function AddUser($Mail, $MdpHash, $Nom, $Prenom, $Telephone, $Adresse) {
     ]);
 }
 
-// ============================================================
-// FONCTION INFOS UTILISATEUR PAR EMAIL
-// ============================================================
+// Récupère toutes les infos d'un utilisateur
 function GetUserByMail($Mail)
 {
     $bdd = dbconnect();
@@ -60,9 +52,7 @@ function GetUserByMail($Mail)
     return $res->fetch(PDO::FETCH_ASSOC); // Retourne un tableau associatif ou false
 }
 
-// ============================================================
-// FONCTION RECUPERATION ID CLIENT PAR EMAIL
-// ============================================================
+// Récupère juste l'ID (plus léger quand on n'a pas besoin du reste)
 function getIdClientByMail($mail)
 {
     $bdd = dbconnect();
@@ -73,9 +63,7 @@ function getIdClientByMail($mail)
     return $row ? $row['id_Client'] : null;
 }
 
-// ============================================================
-// FONCTION RECUPERATION DU TARIF HORAIRE PAR ID
-// ============================================================
+// Récupère le tarif horaire
 function GetPrixTarif($id_tarif) {
     $bdd = dbconnect();
     $req = "SELECT Tarif_Horaire FROM tarif WHERE id_Tarif = :id";
@@ -87,12 +75,14 @@ function GetPrixTarif($id_tarif) {
 }
 
 // ====================================================================
-// FONCTION RECUPERATION D'UN VEHICULE DISPONIBLE DANS UNE AGENCE
+// Algorithme complexe : Trouver un véhicule
+// 1. Sélectionne tous les véhicules du bon type et de la bonne agence
+// 2. Boucle sur chaque véhicule pour voir s'il est libre aux dates demandées
 // ====================================================================
 function FindVehiculeDisponible($nom_agence, $libelle_type, $date_debut, $date_fin)
 {
     $bdd = dbconnect();
-    // Gestion du formatage
+    // Gestion du formatage (ex: "Berline_Luxe" -> "Berline Luxe")
     $libelle_type = str_replace('_', ' ', $libelle_type);
 
     // Jointure SQL pour relier Vehicule -> Agence et Vehicule -> Type
@@ -119,9 +109,7 @@ function FindVehiculeDisponible($nom_agence, $libelle_type, $date_debut, $date_f
     return null; // Tous occupés
 }
 
-// ============================================================
-// FONCTION VERIFICATION SI VEHICULE LIBRE
-// ============================================================
+// Vérifie si un véhicule précis a des conflits de réservation
 function IsVehiculeLibre($id_vehicule, $date_debut, $date_fin)
 {
     $bdd = dbconnect();
@@ -139,9 +127,7 @@ function IsVehiculeLibre($id_vehicule, $date_debut, $date_fin)
     return $row['nb'] == 0;
 }
 
-// ============================================================
-// FONCTION ENREGITRANT LA RESERVATION DANS LA BASE DE DONNEES
-// ============================================================
+// Enregistre la réservation
 function AddReservation($id_client, $id_vehicule, $id_tarif, $debut, $fin, $duree, $speciale, $montant)
 {
     $bdd = dbconnect();
