@@ -5,19 +5,18 @@ session_start();
 require('controller/controller.php');
 
 // ============================================================
-// ROUTAGE : INSCRIPTION
-// On vérifie si l'URL contient ?action=signupsession
+// SCÉNARIO 1 : INSCRIPTION (?action=signupsession)
 // ============================================================
 if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
 
-    // Si la méthode est POST, cela signifie que l'utilisateur a cliqué sur "S'inscrire" dans le formulaire
+    // Cas A : L'utilisateur a rempli le formulaire et cliqué sur "S'inscrire" (Méthode POST)
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        // Validation : On vérifie que tous les champs obligatoires ne sont pas vides
+        // Validation : On vérifie qu'aucun champ obligatoire n'est vide
         if (!empty($_POST['Nom']) && !empty($_POST['Prenom']) && !empty($_POST['Telephone']) &&
             !empty($_POST['Adresse']) && !empty($_POST['Mail']) && !empty($_POST['Mot_de_Passe_Securiser'])) {
 
-            // Nettoyage/Récupération des données du formulaire dans des variables simples
+            // On récupère les données dans des variables simples pour la lisibilité
             $Nom = $_POST['Nom'];
             $Prenom = $_POST['Prenom'];
             $Telephone = $_POST['Telephone'];
@@ -25,51 +24,50 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             $Mail = $_POST['Mail'];
             $Mot_de_Passe_Securiser = $_POST['Mot_de_Passe_Securiser'];
 
-            // Appel à la fonction du Contrôleur (Signupuser).
-            // Si elle renvoie TRUE (succès), on redirige. Sinon, l'erreur est gérée dans le 'else'.
+            // Appel au Contrôleur : On lance la fonction d'inscription
+            // Si elle retourne TRUE, tout est bon.
             if (Signupuser($Nom, $Prenom, $Telephone, $Adresse, $Mail, $Mot_de_Passe_Securiser)) {
-                // Succès : Redirection vers la page d'accueil pour éviter de renvoyer le formulaire (Pattern PRG)
+                // Succès : Redirection vers l'accueil.
                 header('Location: index.php');
-                exit(); // Toujours mettre exit() après une redirection header()
+                exit();
             } else {
-                // Échec (ex: email déjà pris) : On réaffiche le formulaire d'inscription pour qu'il puisse réessayer
+                // Échec (ex: Email déjà pris) : On réaffiche le formulaire pour qu'il corrige
                 require('view/Signup.php');
             }
         } else {
-            // Cas où un champ est vide
+            // Cas B : Un champ est vide -> Message d'erreur + Réaffichage formulaire
             echo "<div class='error-message-standalone'>⚠️ Veuillez remplir tous les champs.</div>";
             require('view/Signup.php');
         }
     } else {
-        // Si on n'est pas en POST (méthode GET), c'est qu'on veut juste VOIR le formulaire
+        // Cas C : L'utilisateur arrive juste sur la page (Méthode GET) -> On affiche le formulaire vierge
         require('view/Signup.php');
     }
 
 // ============================================================
-// ROUTAGE : CONNEXION
-// On vérifie si l'URL contient ?action=loginpsession
+// SCÉNARIO 2 : CONNEXION (?action=loginpsession)
 // ============================================================
 } elseif (isset($_GET['action']) && $_GET['action'] == 'loginpsession') {
 
+    // Si formulaire soumis (POST)
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Vérification basique des champs
+        // Vérif champs remplis
         if (!empty($_POST['Mail']) && !empty($_POST['Mot_de_Passe_Securiser'])) {
             $Mail = $_POST['Mail'];
             $Mot_de_Passe_Securiser = $_POST['Mot_de_Passe_Securiser'];
 
-            // Appel au contrôleur. Notez que Loginuser renvoie true, false ou "locked"
+            // Appel au Contrôleur.
             $loginResult = Loginuser($Mail, $Mot_de_Passe_Securiser);
 
             if ($loginResult === true) {
-                // Connexion réussie
+                // Connexion réussie -> Accueil
                 header('Location: index.php');
                 exit();
             } elseif ($loginResult == "locked") {
-                // Cas spécifique : trop de tentatives, compte bloqué temporairement
+                // Compte bloqué temporairement -> On reste sur le login avec le message
                 require('view/Login.php');
             } else {
-                // Erreur classique (mauvais mot de passe)
-                echo "<div class='error-message-standalone'>❌ Compte inexistant ou mot de passe incorrect</div>";
+                // Mot de passe faux -> On reste sur le login
                 require('view/Login.php');
             }
         } else {
@@ -77,33 +75,36 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             require('view/Login.php');
         }
     } else {
-        // Affichage simple du formulaire de connexion
+        // Affichage simple du formulaire (GET)
         require('view/Login.php');
     }
 
 // ============================================================
-// ROUTAGE : DÉCONNEXION
+// SCÉNARIO 3 : DÉCONNEXION (?action=logout)
 // ============================================================
 } elseif (isset($_GET['action']) && $_GET['action'] == 'logout') {
-    // Appelle la fonction qui détruit la session
-    LogoutUser();
-    // Redirige ou affiche le menu principal
+    LogoutUser(); // Vide la session côté serveur
     require('Menuprincipal.php');
 
 // ============================================================
-// ROUTAGE : RÉSERVATION
+// SCÉNARIO 4 : RÉSERVATION (?action=reservationsession)
 // ============================================================
 } elseif (isset($_GET['action']) && $_GET['action'] == 'reservationsession') {
 
-    // Sécurité CRITIQUE : On empêche l'accès si l'utilisateur n'est pas connecté.
+    // 1. SÉCURITÉ : Si l'utilisateur n'est pas connecté, on le redirige vers le login
     if (!isset($_SESSION['Mail'])) {
         echo "<div class='error-message-standalone'>❌ Vous devez être connecté pour faire une réservation</div>";
-        require('view/Login.php'); // On le renvoie vers la page de login
-        exit(); // On arrête le script ici
+        require('view/Login.php');
+        exit();
     }
 
+    // 2. PRÉPARATION : On récupère les stocks de véhicules
+    $dispoStats = GetDispoParType();
+
+    // 3. TRAITEMENT : Si le formulaire est soumis
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Vérification de la présence de toutes les données nécessaires à la résa
+
+        // Vérification de tous les champs requis
         if (!empty($_POST['Agence']) && !empty($_POST['Type_Vehicule']) &&
             !empty($_POST['Date_Debut']) && !empty($_POST['Date_Fin']) &&
             !empty($_POST['Heure_Debut']) && !empty($_POST['Heure_Fin'])) {
@@ -115,19 +116,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             $Date_Fin = $_POST['Date_Fin'];
             $Heure_Debut = $_POST['Heure_Debut'];
             $Heure_Fin = $_POST['Heure_Fin'];
-            // Ternaire : si demande spéciale est vide, on met une chaine vide, sinon on prend la valeur
+            // Ternaire : Si demande spéciale vide, on met une chaîne vide ''
             $demande_speciale = !empty($_POST['Demande_speciale']) ? $_POST['Demande_speciale'] : '';
-            $Mail_Client = $_SESSION['Mail']; // On utilise l'email stocké en session (fiable)
+            $Mail_Client = $_SESSION['Mail']; // On utilise le mail de la session (plus sûr que le POST)
 
-            // Appel au contrôleur pour la logique complexe (calcul prix, vérif dispo)
+            // Appel de la logique complexe dans le Contrôleur
             $result = CreateReservation($Mail_Client, $Agence, $Type_Vehicule, $Date_Debut, $Date_Fin, $Heure_Debut, $Heure_Fin, $demande_speciale);
 
             if ($result == true) {
-                // Si tout est bon, on affiche la vue de succès
+                // Succès -> Page de confirmation
                 require('view/SuccessReservation.php');
                 exit();
             } else {
-                // Sinon (véhicule indisponible, erreur dates...), on recharge le formulaire
+                // Erreur (ex: plus de véhicule, dates incohérentes) -> On recharge le formulaire
                 require('view/Reservation.php');
             }
 
@@ -136,11 +137,40 @@ if (isset($_GET['action']) && $_GET['action'] == 'signupsession') {
             require('view/Reservation.php');
         }
     } else {
-        // Affichage du formulaire de réservation
+        // Affichage initial du formulaire de réservation (premier chargement)
         require('view/Reservation.php');
     }
 
+// ============================================================
+// SCÉNARIO 5 : MES RÉSERVATIONS (?action=mesreservationsession)
+// ============================================================
+} elseif (isset($_GET['action']) && $_GET['action'] == 'mesreservationsession') {
+
+    // Sécurité : connexion requise
+    if (!isset($_SESSION['Mail'])) {
+        echo "<div class='error-message-standalone'>❌ Connectez-vous pour voir vos réservations.</div>";
+        require('view/Login.php');
+        exit();
+    }
+
+    // On récupère l'ID du client grâce à son email stocké en session
+    $id_client = getIdClientByMail($_SESSION['Mail']);
+
+    // Si on a l'ID, on cherche ses réservations, sinon tableau vide
+    if ($id_client) {
+        $mesReservations = GetReservationsClient($id_client);
+    } else {
+        $mesReservations = [];
+    }
+
+    // On affiche la vue (le tableau HTML utilisera la variable $mesReservations)
+    require('view/MesReservations.php');
+
+// ============================================================
+// SCÉNARIO PAR DÉFAUT : ACCUEIL
+// ============================================================
 } else {
+    // Si aucune action n'est demandée, ou action inconnue -> Menu Principal
     require('Menuprincipal.php');
 }
 ?>

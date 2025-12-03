@@ -4,45 +4,77 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation - EcoMobil</title>
-    <script type="text/javascript" src="js/script.js"></script>
 
-    <link rel="icon" href="View/Eco-Mobil.png" type="image/png">
-    <link rel="apple-touch-icon" href="View/Eco-Mobil.png">
+    <script type="text/javascript" src="../AP_SIO2_EcoMobil_1er_Semestre/js/script.js"></script>
+
+    <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-
     <style>
-        /* --- DÉBUT AJOUT CSS --- */
-        /* Style pour les messages d'erreur uniformisés */
-        .error-message-standalone {
-            color: #c0392b;
-            background: #ffe6e6;
-            padding: 12px 25px;
-            border-radius: 15px;
-            margin: 20px auto; /* Centré avec marge */
-            font-weight: 500;
-            font-size: 1em;
-            text-align: center;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px var(--light-shadow);
-            max-width: 600px; /* Un peu plus large pour la réservation */
-            width: 80%;
-            display: block;
+
+        .stock-container {
+            margin-top: 15px;
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+
+            /* C'est ici que l'on met en ligne horizontalement */
+            display: flex;
+            flex-wrap: wrap;         /* Passe à la ligne si nécessaire */
+            justify-content: center; /* Centre les badges */
+            gap: 15px;               /* Espace entre les badges */
         }
 
-        .success-message {
-            color: #27ae60;
-            background: #eafaf1;
-            padding: 12px 25px;
-            border-radius: 15px;
-            margin: 20px auto;
-            font-weight: 600;
+        .stock-title {
+            color: #71b852;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 1.1em;
+            width: 100%;
             text-align: center;
-            box-shadow: 5px 5px 10px rgba(0,0,0,0.1), -5px -5px 10px #fff;
-            max-width: 600px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
         }
-        /* --- FIN AJOUT CSS --- */
+
+        .stock-item {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .stock-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .stock-icon {
+            font-size: 1.3em;
+            margin-right: 10px;
+        }
+
+        .stock-count {
+            font-weight: 800;
+            font-size: 1.1em;
+            color: #333;
+            margin-right: 6px;
+        }
+
+        .stock-label {
+            font-size: 0.95em;
+            color: #555;
+            white-space: nowrap;
+        }
 
         :root {
             --bg-color: #e0e0e0;
@@ -53,17 +85,57 @@
             --input-height: 42px;
         }
 
-        /* PAGE */
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--accent-color);
+            border-radius: 6px;
+            background-color: var(--bg-color);
+            cursor: pointer;
+            position: relative;
+            vertical-align: middle;
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        input[type="checkbox"]:checked::after {
+            content: '✔';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .error-message-standalone {
+            color: #c0392b;
+            background: #ffe6e6;
+            padding: 12px 25px;
+            border-radius: 15px;
+            margin: 0 auto 20px auto;
+            font-weight: 500;
+            font-size: 1em;
+            text-align: center;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px var(--light-shadow);
+            max-width: 800px;
+            width: 90%;
+            display: block;
+            border: 1px solid #ffcccc;
+        }
+
         body {
             margin: 0;
             display: flex;
-
-            /* --- AJOUT IMPORTANT --- */
-            flex-direction: column;  /* Force l'affichage vertical (l'un sous l'autre) */
-            align-items: center;     /* Centre les éléments horizontalement */
-            /* ----------------------- */
-
-            justify-content: flex-start; /* Aligne tout vers le haut */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--bg-color) 0%, #cacaca 50%, var(--bg-color) 100%);
@@ -80,14 +152,14 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* CONTENEUR PRINCIPAL - MODIF largeur réelle */
         .reservation-container {
             background: var(--bg-color);
-            padding: 48px; /* plus modéré que 70px */
+            padding: 48px;
             border-radius: 30px;
             box-shadow: 10px 10px 20px var(--dark-shadow), -10px -10px 20px var(--light-shadow);
-            width: 1150px;      /* Agrandi, visible sur écran large */
-            max-width: 97vw;    /* Toujours fluide sur petits écrans */
+            width: 1150px;
+            max-width: 97vw;
+            margin-top: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -96,55 +168,22 @@
             box-shadow: 15px 15px 30px var(--dark-shadow), -15px -15px 30px var(--light-shadow);
         }
 
-        /* TITRES */
-        h2 {
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 30px;
-        }
+        h2 { text-align: center; font-weight: 700; margin-bottom: 30px; }
 
-        /* SECTIONS (AGENCE, VEHICULE) */
         fieldset {
             border: none;
-            padding: 22px;       /* Ajusté, pas trop d'espace */
-            margin-top: 28px;    /* Espace entre blocs plus sobre */
+            padding: 22px;
+            margin-top: 28px;
             background: var(--bg-color);
             border-radius: 20px;
             box-shadow: 6px 6px 12px var(--dark-shadow), -6px -6px 12px var(--light-shadow);
         }
 
-        .legend-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;    /* espace sous le titre réduit */
-        }
+        .legend-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 
-        /* TABLE DE FORMULAIRE - MODIF espace ajusté */
-        .form-table {
-            width: 100%;
-            border-spacing: 0 13px; /* Espace vertical plus court */
-            margin-top: 5px;
-        }
+        .form-table { width: 100%; border-spacing: 0 13px; margin-top: 5px; }
+        .form-table td { padding: 8px 16px; vertical-align: middle; }
 
-        .form-table td {
-            padding: 8px 16px;      /* Espace horizontal correct */
-            vertical-align: middle;
-        }
-
-        /* Checkbox personnalisée verte */
-        .form-table input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--accent-color);
-            border-radius: 7px;
-            box-shadow: 0 2px 6px rgba(158,184,152,0.15);
-            background: var(--bg-color);
-            outline: none;
-            vertical-align: middle;
-        }
-
-        /* CHAMPS UNIFORMES */
         .form-table input[type="text"],
         .form-table input[type="date"],
         .form-table input[type="time"],
@@ -158,16 +197,11 @@
             background: var(--bg-color);
             outline: none;
             font-size: 1em;
-            box-shadow: inset 4px 4px 8px var(--dark-shadow),
-            inset -4px -4px 8px var(--light-shadow);
+            box-shadow: inset 4px 4px 8px var(--dark-shadow), inset -4px -4px 8px var(--light-shadow);
         }
 
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
+        textarea { height: 100px; resize: vertical; }
 
-        /* BOUTONS PARTICIPANTS */
         input[type="button"] {
             background: var(--accent-color);
             color: white;
@@ -175,15 +209,11 @@
             padding: 12px 22px;
             border-radius: 20px;
             cursor: pointer;
-            font-weight: 500;
             box-shadow: 5px 5px 10px var(--dark-shadow), -5px -5px 10px var(--light-shadow);
             transition: transform 0.2s ease;
         }
-        input[type="button"]:hover {
-            transform: translateY(-3px);
-        }
+        input[type="button"]:hover { transform: translateY(-3px); }
 
-        /* SUBMIT */
         .submit {
             width: 100%;
             padding: 18px;
@@ -195,15 +225,10 @@
             color: white;
             cursor: pointer;
             box-shadow: 6px 6px 12px var(--dark-shadow), -6px -6px 12px var(--light-shadow);
-            /* Supprimer cette ligne si elle existe : border: 2px solid #222; */
-            border: none;  /* <-- Garde seulement cette ligne */
+            border: none;
         }
+        .submit:hover { transform: translateY(-3px); }
 
-        .submit:hover {
-            transform: translateY(-3px);
-        }
-
-        /* BOUTON ACCUEIL */
         .btn-accueil {
             padding: 10px 18px;
             font-size: 1em;
@@ -216,19 +241,19 @@
         }
         .btn-accueil:hover { transform: translateY(-2px); }
 
-        /* Responsive : adapte sur petits écrans */
+        .agreement { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .agreement label { font-size: 0.95em; cursor: pointer; }
+        .agreement a { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+
         @media (max-width: 1200px) {
-            .reservation-container {
-                width: 98vw;
-                padding: 18px;
-            }
+            .reservation-container { width: 98vw; padding: 18px; }
             .form-table td { padding: 6px 4px; }
         }
 
+        /* Ces règles s'appliquent maintenant PARTOUT (y compris sur PC) */
         .form-table tr {
             display: grid;
-            grid-template-columns: 40px
-        repeat(6, 1fr);
+            grid-template-columns: 40px repeat(6, 1fr);
             grid-gap: 10px;
             align-items: center;
         }
@@ -237,8 +262,6 @@
             grid-column: 1 / -1;
             margin-top: 15px;
         }
-
-
     </style>
 </head>
 <body>
@@ -264,6 +287,38 @@
                 (Les actions s’appliquent seulement aux lignes cochées.)
             </p>
 
+            <div class="stock-container">
+                <div class="stock-title">Disponibilité en temps réel :</div>
+
+                <?php
+                // Configuration des icônes
+                $iconsConfig = [
+                        'Vélo_électrique_urbain' => '⚡ 🚲',
+                        'VTT_électrique'         => '⚡ 🚴',
+                        'Hoverboard'             => '🔹',
+                        'Trottinette_électrique' => '⚡ 🛴',
+                        'Gyropode'               => '🔹',
+                        'Skateboard_électrique'  => '⚡ 🛹'
+                ];
+
+                if (isset($dispoStats) && !empty($dispoStats)) {
+                    foreach ($dispoStats as $stat) {
+                        $typeKey = str_replace(' ', '_', $stat['libelle_Type']);
+                        $icone = isset($iconsConfig[$typeKey]) ? $iconsConfig[$typeKey] : '🚗';
+                        $nomAffiche = str_replace('_', ' ', $stat['libelle_Type']);
+
+                        echo "
+                        <div class='stock-item'>
+                            <span class='stock-icon'>{$icone}</span>
+                            <span class='stock-count'>{$stat['nb']}</span>
+                            <span class='stock-label'>{$nomAffiche}</span>
+                        </div>";
+                    }
+                } else {
+                    echo "<div style='width:100%; text-align:center;'>🚫 Aucun véhicule disponible.</div>";
+                }
+                ?>
+            </div>
             <table id="dataTable" class="form-table">
                 <tbody>
                 <tr>
@@ -271,46 +326,46 @@
                     <td>
                         <label>Agence</label>
                         <select name="Agence" required>
-                            <option value="">....</option>
-                            <option value="Annecy">Annecy</option>
-                            <option value="Grenoble">Grenoble</option>
-                            <option value="Chambéry">Chambéry</option>
-                            <option value="Valence">Valence</option>
-                            <option value="Saint-Etienne">Saint-Etienne</option>
-                            <option value="Bourg-en-Bresse">Bourg-en-Bresse</option>
+                            <option value="">...</option>
+                            <option value="Annecy" <?php echo (isset($_POST['Agence']) && $_POST['Agence'] == 'Annecy') ? 'selected' : ''; ?>>Annecy</option>
+                            <option value="Grenoble" <?php echo (isset($_POST['Agence']) && $_POST['Agence'] == 'Grenoble') ? 'selected' : ''; ?>>Grenoble</option>
+                            <option value="Chambéry" <?php echo (isset($_POST['Agence']) && $_POST['Agence'] == 'Chambéry') ? 'selected' : ''; ?>>Chambéry</option>
+                            <option value="Valence" <?php echo (isset($_POST['Agence']) && $_POST['Agence'] == 'Valence') ? 'selected' : ''; ?>>Valence</option>
+                            <option value="Saint-Etienne" <?php echo (isset($_POST['Agence']) && $_POST['Agence'] == 'Saint-Etienne') ? 'selected' : ''; ?>>Saint-Etienne</option>
+                            <option value="Bourg-en-Bresse" <?php echo (isset($_POST['Agence']) && $_POST['Agence'] == 'Bourg-en-Bresse') ? 'selected' : ''; ?>>Bourg-en-Bresse</option>
                         </select>
                     </td>
                     <td>
                         <label>Type Véhicule</label>
                         <select name="Type_Vehicule" required>
-                            <option value="">....</option>
-                            <option value="Vélo_électrique_urbain">Vélo électrique urbain</option>
-                            <option value="VTT_électrique">VTT électrique</option>
-                            <option value="Hoverboard">Hoverboard</option>
-                            <option value="Trottinette_électrique">Trottinette électrique</option>
-                            <option value="Gyropode">Gyropode</option>
-                            <option value="Skateboard_électrique">Skateboard électrique</option>
+                            <option value="">...</option>
+                            <option value="Vélo_électrique_urbain" <?php echo (isset($_POST['Type_Vehicule']) && $_POST['Type_Vehicule'] == 'Vélo_électrique_urbain') ? 'selected' : ''; ?>>Vélo électrique urbain</option>
+                            <option value="VTT_électrique" <?php echo (isset($_POST['Type_Vehicule']) && $_POST['Type_Vehicule'] == 'VTT_électrique') ? 'selected' : ''; ?>>VTT électrique</option>
+                            <option value="Hoverboard" <?php echo (isset($_POST['Type_Vehicule']) && $_POST['Type_Vehicule'] == 'Hoverboard') ? 'selected' : ''; ?>>Hoverboard</option>
+                            <option value="Trottinette_électrique" <?php echo (isset($_POST['Type_Vehicule']) && $_POST['Type_Vehicule'] == 'Trottinette_électrique') ? 'selected' : ''; ?>>Trottinette électrique</option>
+                            <option value="Gyropode" <?php echo (isset($_POST['Type_Vehicule']) && $_POST['Type_Vehicule'] == 'Gyropode') ? 'selected' : ''; ?>>Gyropode</option>
+                            <option value="Skateboard_électrique" <?php echo (isset($_POST['Type_Vehicule']) && $_POST['Type_Vehicule'] == 'Skateboard_électrique') ? 'selected' : ''; ?>>Skateboard électrique</option>
                         </select>
                     </td>
                     <td>
                         <label>Date Début</label>
-                        <input type="Date" name="Date_Debut" value="Date_Debut" required />
+                        <input type="Date" name="Date_Debut" value="<?php echo isset($_POST['Date_Debut']) ? htmlspecialchars($_POST['Date_Debut']) : ''; ?>" required />
                     </td>
                     <td>
                         <label>Date Fin</label>
-                        <input type="Date" name="Date_Fin" value="Date_Fin" required />
+                        <input type="Date" name="Date_Fin" value="<?php echo isset($_POST['Date_Fin']) ? htmlspecialchars($_POST['Date_Fin']) : ''; ?>" required />
                     </td>
                     <td>
                         <label>Heure Début</label>
-                        <input type="Time" name="Heure_Debut" value="Heure_Debut" required />
+                        <input type="Time" name="Heure_Debut" value="<?php echo isset($_POST['Heure_Debut']) ? htmlspecialchars($_POST['Heure_Debut']) : ''; ?>" required />
                     </td>
                     <td>
                         <label>Heure Fin</label>
-                        <input type="Time" name="Heure_Fin" value="Heure_Fin" required />
+                        <input type="Time" name="Heure_Fin" value="<?php echo isset($_POST['Heure_Fin']) ? htmlspecialchars($_POST['Heure_Fin']) : ''; ?>" required />
                     </td>
                     <td>
                         <label>Demande(s) spécial éventuelle(s)</label>
-                        <textarea name="Demande_speciale" rows="10" cols="100"></textarea>
+                        <textarea name="Demande_speciale" rows="10" cols="100"><?php echo isset($_POST['Demande_speciale']) ? htmlspecialchars($_POST['Demande_speciale']) : ''; ?></textarea>
                     </td>
                 </tr>
                 </tbody>

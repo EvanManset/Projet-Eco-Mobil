@@ -7,6 +7,7 @@
 
     <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -408,7 +409,6 @@
         <?php endif; ?>
     </ul>
 
-    <!-- 3. Bouton Client à Droite -->
     <?php if(isset($_SESSION['Mail'])): ?>
         <a href="index.php?action=logout" class="nav-btn">Se déconnecter</a>
     <?php else: ?>
@@ -416,10 +416,8 @@
     <?php endif; ?>
 </nav>
 
-<!-- CONTENU PRINCIPAL (LOGIQUE PHP RESTAURÉE) -->
 <?php if (isset($_SESSION['Mail'])): ?>
 
-    <!-- MODE CONNECTÉ -->
     <div class="dashboard-container">
         <div class="dashboard-text">
             <h1>Bienvenue <?php echo ($_SESSION['Prenom']) . ' ' . ($_SESSION['Nom']); ?></h1>
@@ -431,7 +429,7 @@
             <a href="index.php?action=reservationsession" class="dashboard-btn">
                 Nouvelle Réservation
             </a>
-            <a href="#" class="dashboard-btn">
+            <a href="index.php?action=mesreservationsession" class="dashboard-btn">
                 Mes Réservations
             </a>
         </div>
@@ -443,7 +441,6 @@
 
 <?php else: ?>
 
-    <!-- MODE VISITEUR (Inchangé) -->
     <header class="hero">
         <h1>Eco-Mobil</h1>
         <p>Louez vert, roulez libre. La mobilité de demain, aujourd'hui.</p>
@@ -549,7 +546,6 @@
     <a href="#" style="color:var(--accent-color);">Mentions légales</a>
 </footer>
 
-<!-- Bouton Retour Haut -->
 <a href="#top" id="back-to-top" title="Retour en haut">
     <i class="fa-solid fa-arrow-up"></i>
 </a>

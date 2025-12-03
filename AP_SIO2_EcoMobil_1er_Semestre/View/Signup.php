@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - EcoMobil</title>
-    <link rel="icon" href="View/Eco-Mobil.png" type="image/png">
-    <link rel="apple-touch-icon" href="View/Eco-Mobil.png">
+
+    <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -235,27 +237,32 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="Prenom">Prénom</label>
-                <input type="text" id="Prenom" name="Prenom" placeholder="John" required>
+                <input type="text" id="Prenom" name="Prenom" placeholder="John"
+                       value="<?php echo isset($_POST['Prenom']) ? ($_POST['Prenom']) : ''; ?>" required>
             </div>
             <div class="form-group">
                 <label for="Nom">Nom</label>
-                <input type="text" id="Nom" name="Nom" placeholder="Doe" required>
+                <input type="text" id="Nom" name="Nom" placeholder="Doe"
+                       value="<?php echo isset($_POST['Nom']) ? ($_POST['Nom']) : ''; ?>" required>
             </div>
         </div>
 
         <div class="form-group">
             <label for="Telephone">Téléphone</label>
-            <input type="tel" id="Telephone" name="Telephone" placeholder="07...." required>
+            <input type="tel" id="Telephone" name="Telephone" placeholder="07...."
+                   value="<?php echo isset($_POST['Telephone']) ? ($_POST['Telephone']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
             <label for="Adresse">Adresse</label>
-            <input type="text" id="Adresse" name="Adresse" placeholder="12 rue des Érables" required>
+            <input type="text" id="Adresse" name="Adresse" placeholder="12 rue des Érables"
+                   value="<?php echo isset($_POST['Adresse']) ? ($_POST['Adresse']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
             <label for="Mail">E-mail</label>
-            <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com" required>
+            <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com"
+                   value="<?php echo isset($_POST['Mail']) ? ($_POST['Mail']) : ''; ?>" required>
         </div>
 
         <div class="form-group">

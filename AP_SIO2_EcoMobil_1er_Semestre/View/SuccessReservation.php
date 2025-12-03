@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Succès - EcoMobil</title>
+    <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -41,23 +43,30 @@
             border-radius: 30px;
             box-shadow: 10px 10px 20px var(--dark-shadow), -10px -10px 20px var(--light-shadow);
             text-align: center;
-            max-width: 500px;
+            max-width: 650px; /* Un peu plus large pour le texte détaillé */
             width: 90%;
         }
 
         .success-message {
             color: #27ae60;
             background: #eafaf1;
-            padding: 15px 25px;
+            padding: 20px;
             border-radius: 15px;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 1.1em;
             margin-bottom: 30px;
             box-shadow: inset 3px 3px 7px rgba(0,0,0,0.1), inset -3px -3px 7px #fff;
             display: flex;
+            flex-direction: column; /* Texte sous l'icône */
             align-items: center;
             justify-content: center;
             gap: 10px;
+            line-height: 1.6; /* Pour que le texte soit aéré */
+        }
+
+        .success-icon {
+            font-size: 2em;
+            margin-bottom: 5px;
         }
 
         .btn-retour {
@@ -82,9 +91,30 @@
 
 <div class="success-card">
     <div class="success-message">
-        ✅ Réservation créée avec succès !
+        <div class="success-icon">✅</div>
+        <div>
+            <?php
+            // 1. On vérifie si les variables existent, sinon on met des valeurs par défaut
+            $type = isset($Type_Vehicule) ? str_replace('_', ' ', $Type_Vehicule) : 'Véhicule';
+            $agence = isset($Agence) ? $Agence : 'Agence';
+
+            // 2. Formatage des dates en Français (JJ/MM/AAAA)
+            $dateD = isset($Date_Debut) ? date("d/m/Y", strtotime($Date_Debut)) : 'Date début';
+            $dateF = isset($Date_Fin) ? date("d/m/Y", strtotime($Date_Fin)) : 'Date fin';
+
+            $heureD = isset($Heure_Debut) ? $Heure_Debut : '--:--';
+            $heureF = isset($Heure_Fin) ? $Heure_Fin : '--:--';
+
+            // 3. Affichage du message dynamique
+            echo "Votre réservation d’un <strong>" . ($type) . "</strong> ";
+            echo "dans l’agence <strong>" . ($agence) . "</strong><br>";
+            echo "du <strong>" . $dateD . "</strong> au <strong>" . $dateF . "</strong> ";
+            echo "de <strong>" . ($heureD) . "</strong> à <strong>" . ($heureF) . "</strong><br>";
+            echo "est réservée avec succès.";
+            ?>
+        </div>
     </div>
-    <a href="/AP_SIO2_EcoMobil_1er_Semestre/index.php" class="btn-retour">Retour à l'accueil</a>
+    <a href="index.php" class="btn-retour">Retour à l'accueil</a>
 </div>
 
 </body>

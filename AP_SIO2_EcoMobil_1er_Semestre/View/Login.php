@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - EcoMobil</title>
-    <link rel="icon" href="View/Eco-Mobil.png" type="image/png">
-    <link rel="apple-touch-icon" href="View/Eco-Mobil.png">
+
+    <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -183,7 +185,8 @@
     <form action="/AP_SIO2_EcoMobil_1er_Semestre/index.php?action=loginpsession" method="POST">
         <div class="form-group">
             <label for="Mail">E-mail</label>
-            <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com" required>
+            <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com"
+                   value="<?php echo isset($_POST['Mail']) ? ($_POST['Mail']) : ''; ?>" required>
         </div>
         <div class="form-group">
             <label for="Mot_de_Passe_Securiser">Mot de passe</label>
