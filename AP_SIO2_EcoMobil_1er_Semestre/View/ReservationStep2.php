@@ -361,8 +361,8 @@
                 </button>
             </div>
 
-            <div class="table-scroll-area">
-                <table id="dataTable"><tr><td><input type="checkbox" name="chk[]" checked /></td><td><input type="text" name="Participant[]" placeholder="Nom Prénom du participant" /></td></tr></table>
+            <div class="participant-scroll-area">
+                <table id="dataTable"><tr><td><input type="checkbox" name="chk[]" checked /></td><td><input type="text" name="Participant[]" placeholder="Nom & Prénom du participant" required /></td></tr></table>
             </div>
 
             <p style="font-size:0.8em; color:#888; margin-top:10px; font-style:italic;">
