@@ -426,7 +426,8 @@
                 Prêt pour votre prochaine aventure écologique ?
             </p>
 
-            <a href="index.php?action=reservationsession" class="dashboard-btn">
+            <!-- C'EST ICI QUE LE LIEN A CHANGÉ VERS L'ÉTAPE 1 -->
+            <a href="index.php?action=reservation_step1" class="dashboard-btn">
                 Nouvelle Réservation
             </a>
             <a href="index.php?action=mesreservationsession" class="dashboard-btn">

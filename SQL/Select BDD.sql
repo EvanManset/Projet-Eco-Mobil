@@ -6,6 +6,8 @@ select * from type_vehicule;
 
 select * from reservation;
 
+TRUNCATE TABLE reservation;
+
 -- delete from client_connecter
 -- where id_Client = ;
 

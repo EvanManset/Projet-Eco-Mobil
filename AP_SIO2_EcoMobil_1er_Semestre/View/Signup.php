@@ -19,7 +19,7 @@
             --dark-shadow: #a3b1c6;
             --main-text-color: #333;
             --accent-color: #71b852;
-            --accent-hover: #5fa73d;
+            --accent-hover: #ffffff;
             --accent-active: #4c8830;
         }
 

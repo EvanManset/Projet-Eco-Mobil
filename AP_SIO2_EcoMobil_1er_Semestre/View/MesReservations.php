@@ -189,18 +189,18 @@
                 <?php foreach ($mesReservations as $resa): ?>
                     <tr>
                         <td>
-                            <strong style="white-space: nowrap;"><?php echo htmlspecialchars($resa['Marque'] . ' ' . $resa['Modele']); ?></strong><br>
+                            <strong style="white-space: nowrap;"><?php echo ($resa['Marque'] . ' ' . $resa['Modele']); ?></strong><br>
 
                             <small style="color:#666;">
                                 Type : <?php echo isset($resa['libelle_Type']) ? str_replace('_', ' ', $resa['libelle_Type']) : 'Standard'; ?>
                             </small>
                         </td>
-                        <td><?php echo htmlspecialchars($resa['nom_Agence']); ?></td>
+                        <td><?php echo ($resa['nom_Agence']); ?></td>
 
                         <td>
                             <?php if (!empty($resa['Demande_speciale'])): ?>
                                 <div class="demande-speciale-box">
-                                    "<?php echo htmlspecialchars($resa['Demande_speciale']); ?>"
+                                    "<?php echo ($resa['Demande_speciale']); ?>"
                                 </div>
                             <?php else: ?>
                                 <span style="color: #aaa;">-</span>
@@ -226,7 +226,7 @@
                             if(strpos($statut, 'cours') !== false) $class = 'badge-en-cours';
                             if(strpos($statut, 'annul') !== false) $class = 'badge-annulee';
                             ?>
-                            <span class="badge <?php echo $class; ?>"><?php echo htmlspecialchars($resa['statut_reservation']); ?></span>
+                            <span class="badge <?php echo $class; ?>"><?php echo ($resa['statut_reservation']); ?></span>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -236,13 +236,13 @@
 
         <?php foreach ($mesReservations as $resa): ?>
             <div class="mobile-card">
-                <h3><?php echo htmlspecialchars($resa['Marque'] . ' ' . $resa['Modele']); ?></h3>
+                <h3><?php echo ($resa['Marque'] . ' ' . $resa['Modele']); ?></h3>
 
                 <p style="font-size: 0.9em; color: #777; margin-top:0;">
                     Type : <?php echo isset($resa['libelle_Type']) ? str_replace('_', ' ', $resa['libelle_Type']) : 'Standard'; ?>
                 </p>
 
-                <p><strong>Agence :</strong> <?php echo htmlspecialchars($resa['nom_Agence']); ?></p>
+                <p><strong>Agence :</strong> <?php echo ($resa['nom_Agence']); ?></p>
                 <p><strong>Départ :</strong> <?php echo date("d/m/Y H:i", strtotime($resa['date_debut_location'])); ?></p>
                 <p><strong>Retour :</strong> <?php echo date("d/m/Y H:i", strtotime($resa['date_fin_location'])); ?></p>
 
@@ -250,13 +250,13 @@
                     <p>
                         <strong>Demande spéciale :</strong>
                         <span class="demande-speciale-box" style="display:block; margin-top:5px;">
-                            <?php echo htmlspecialchars($resa['Demande_speciale']); ?>
+                            <?php echo ($resa['Demande_speciale']); ?>
                         </span>
                     </p>
                 <?php endif; ?>
 
                 <p style="margin-top:10px;"><strong>Prix :</strong> <?php echo number_format($resa['montant_totale'], 2, ',', ' '); ?> €</p>
-                <p><strong>Statut :</strong> <?php echo htmlspecialchars($resa['statut_reservation']); ?></p>
+                <p><strong>Statut :</strong> <?php echo ($resa['statut_reservation']); ?></p>
             </div>
         <?php endforeach; ?>
 
