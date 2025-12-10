@@ -8,6 +8,10 @@ select * from reservation;
 
 TRUNCATE TABLE reservation;
 
+select * from participants;
+
+TRUNCATE TABLE participants;
+
 -- delete from client_connecter
 -- where id_Client = ;
 

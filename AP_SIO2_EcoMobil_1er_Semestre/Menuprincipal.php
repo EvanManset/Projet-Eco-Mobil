@@ -11,150 +11,160 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* =========================================
            1. VARIABLES & STYLE GLOBAL
            ========================================= */
+        /* :root permet de stocker des variables CSS utilisables partout */
         :root {
-            --bg-color: #e0e0e0;
-            --light-shadow: #ffffff;
-            --dark-shadow: #a3b1c6;
-            --main-text-color: #333;
-            --accent-color: #71b852;
-            --accent-hover: #5fa73d;
-            --accent-active: #4c8830;
-            --nav-height: 80px;
+            --bg-color: #e0e0e0;       /* Couleur de fond générale (gris clair) */
+            --light-shadow: #ffffff;   /* Couleur de l'ombre claire (lumière) */
+            --dark-shadow: #a3b1c6;    /* Couleur de l'ombre foncée (ombre portée) */
+            --main-text-color: #333;   /* Couleur du texte principal (gris foncé) */
+            --accent-color: #71b852;   /* Vert principal de la marque */
+            --accent-hover: #5fa73d;   /* Vert plus foncé pour les survols */
+            --accent-active: #4c8830;  /* Vert encore plus foncé pour le clic */
+            --nav-height: 80px;        /* Hauteur fixe de la barre de navigation */
         }
 
+        /* Styles appliqués à l'élément html */
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Active le défilement fluide vers les ancres */
+            /* Ajoute un décalage au scroll pour que le menu fixe ne cache pas les titres */
             scroll-padding-top: calc(var(--nav-height) + 20px);
         }
 
+        /* Réinitialisation : tous les éléments incluent bordures et padding dans leur taille */
         * {
             box-sizing: border-box;
         }
 
+        /* Styles globaux du corps de page */
         body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-color);
-            color: var(--main-text-color);
-            overflow-x: hidden;
-            padding-top: var(--nav-height);
+            margin: 0; /* Enlève les marges par défaut */
+            font-family: 'Poppins', sans-serif; /* Applique la police Poppins */
+            background: var(--bg-color); /* Applique la couleur de fond */
+            color: var(--main-text-color); /* Applique la couleur de texte */
+            overflow-x: hidden; /* Empêche le défilement horizontal */
+            padding-top: var(--nav-height); /* Pousse le contenu sous la barre fixe */
         }
 
+        /* Styles par défaut pour tous les liens */
         a { text-decoration: none; color: inherit; transition: 0.3s; }
 
         /* =========================================
-           NAVBAR (MODIFIÉE POUR CENTRAGE)
+           NAVBAR
            ========================================= */
+        /* Conteneur principal de la barre de navigation */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--nav-height);
-            background: var(--bg-color);
-            display: flex;
-            justify-content: space-between; /* Ecarte Logo et Bouton aux bords */
-            align-items: center;
-            padding: 0 40px;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: fixed; /* Fixe la barre en haut de l'écran */
+            top: 0; left: 0; /* Colle la barre en haut à gauche */
+            width: 100%; /* Prend toute la largeur */
+            height: var(--nav-height); /* Hauteur définie en variable */
+            background: var(--bg-color); /* Couleur de fond */
+            display: flex; /* Utilise Flexbox pour aligner les enfants */
+            justify-content: space-between; /* Ecarte Logo (gauche) et Bouton (droite) */
+            align-items: center; /* Centre verticalement */
+            padding: 0 40px; /* Marges intérieures gauche/droite */
+            z-index: 1000; /* Assure que le menu est au-dessus du reste */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Légère ombre sous le menu */
         }
 
-
+        /* Conteneur du logo */
         .logo-container {
-            display: flex;
+            display: flex; /* Aligne image et texte */
             align-items: center;
-            gap: 12px; /* Espace image/texte */
+            gap: 12px; /* Espace entre image et texte */
             z-index: 1002;
         }
 
         /* Image du logo */
         .logo-container img {
-            height: 50px;
-            width: auto;
+            height: 50px; /* Hauteur fixe */
+            width: auto; /* Largeur proportionnelle */
         }
 
-        /* Texte du logo */
+        /* Texte "Eco-Mobil" */
         .logo-text {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-transform: none; /* Force le "Eco-Mobil" sans majuscules forcées */
+            font-size: 1.5em; /* Gros texte */
+            font-weight: 700; /* Gras */
+            color: var(--accent-color); /* Vert */
+            text-transform: none;
         }
 
-        /* 2. Menu au Centre (Position Absolue) */
+        /* Menu central (Liens) */
         .nav-links {
-            position: absolute; /* L'astuce pour le centrage parfait */
-            left: 50%;
-            transform: translateX(-50%);
-
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
+            position: absolute; /* Position absolue pour centrage parfait */
+            left: 50%; /* Place le début à 50% de l'écran */
+            transform: translateX(-50%); /* Recule de 50% de sa propre largeur pour centrer */
+            display: flex; /* Aligne les liens horizontalement */
+            gap: 30px; /* Espace entre les liens */
+            list-style: none; /* Enlève les puces de liste */
+            margin: 0; padding: 0; /* Enlève les marges par défaut */
             align-items: center;
         }
 
+        /* Style des liens individuels */
         .nav-links li a {
             font-weight: 600;
             font-size: 1em;
-            color: #555;
-            position: relative;
+            color: #555; /* Gris moyen */
+            position: relative; /* Pour positionner la ligne de soulignement */
         }
 
+        /* Couleur au survol */
         .nav-links li a:hover {
             color: var(--accent-color);
         }
 
+        /* Création de la ligne de soulignement animée */
         .nav-links li a::after {
             content: '';
             position: absolute;
-            width: 0;
+            width: 0; /* Invisible au début */
             height: 2px;
             bottom: -5px;
             left: 0;
             background-color: var(--accent-color);
-            transition: width 0.3s ease;
+            transition: width 0.3s ease; /* Animation de largeur */
         }
+        /* Au survol, la ligne prend 100% de la largeur */
         .nav-links li a:hover::after {
             width: 100%;
         }
 
-        /* 3. Bouton "Espace Client" à Droite */
+        /* Bouton "Espace Client" ou "Logout" à droite */
         .nav-btn {
             padding: 10px 25px;
             border-radius: 20px;
             background: var(--bg-color);
-
-            /* MODIFICATION ICI : Couleur #555 comme les autres liens */
             color: #555;
-
             font-weight: 700;
+            /* Effet Neumorphisme (relief) */
             box-shadow: 4px 4px 8px var(--dark-shadow), -4px -4px 8px var(--light-shadow);
             z-index: 1002;
         }
+        /* Effet au survol du bouton */
         .nav-btn:hover {
             color: var(--accent-hover);
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* Légère levée */
             box-shadow: 6px 6px 12px var(--dark-shadow), -6px -6px 12px var(--light-shadow);
         }
 
-        /* Responsive : Cache le menu texte sur petit écran */
+        /* Responsive : Cache le menu texte sur petit écran (<900px) */
         @media (max-width: 900px) {
             .nav-links { display: none; }
             .navbar { justify-content: space-between; }
         }
 
         /* =========================================
-           AUTRES STYLES (Inchangés)
+           AUTRES STYLES (Boutons, Sections, Cartes)
            ========================================= */
+
+        /* Bouton standard style "Neumorphisme" */
         .btn-neu {
             display: inline-block;
             padding: 15px 30px;
@@ -165,11 +175,13 @@
             box-shadow: 6px 6px 12px var(--dark-shadow), -6px -6px 12px var(--light-shadow);
             transition: all 0.3s ease;
         }
+        /* Survol bouton standard */
         .btn-neu:hover {
             color: var(--accent-hover);
             transform: translateY(-2px);
             box-shadow: 10px 10px 20px var(--dark-shadow), -10px -10px 20px var(--light-shadow);
         }
+        /* Variation "primaire" (fond vert) */
         .btn-neu.primary {
             background: var(--accent-color);
             color: #fff;
@@ -179,6 +191,7 @@
             color: #fff;
         }
 
+        /* Gros boutons d'action (S'inscrire / Se connecter) */
         .btn-action {
             display: block;
             width: 100%;
@@ -200,18 +213,15 @@
             box-shadow: 15px 15px 30px var(--dark-shadow), -15px -15px 30px var(--light-shadow);
         }
 
+        /* Bouton de retour en haut de page */
         #back-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            bottom: 30px; right: 30px; /* En bas à droite */
+            width: 50px; height: 50px;
+            border-radius: 50%; /* Rond */
             background: var(--accent-color);
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             font-size: 1.8em;
             text-decoration: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -224,6 +234,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
+        /* Style des sections */
         section {
             padding: 80px 20px;
             max-width: 1200px;
@@ -231,6 +242,7 @@
             text-align: center;
         }
 
+        /* Style des titres H2 */
         h2 {
             font-size: 2.5em;
             margin-bottom: 40px;
@@ -238,6 +250,7 @@
             text-shadow: 1px 1px 2px var(--light-shadow);
         }
 
+        /* Style des paragraphes */
         p {
             line-height: 1.6;
             color: #555;
@@ -246,23 +259,23 @@
             margin: 0 auto 30px auto;
         }
 
-        /* HERO SECTION */
+        /* HERO SECTION (Bannière d'accueil) */
         .hero {
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            min-height: 90vh; /* Hauteur quasi pleine page */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            /* Dégradé animé */
             background: linear-gradient(135deg, var(--bg-color) 0%, #cacaca 50%, var(--bg-color) 100%);
             background-size: 400% 400%;
             animation: backgroundAnimation 15s ease infinite alternate;
         }
+        /* Animation du fond */
         @keyframes backgroundAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
+        /* Titre du Hero */
         .hero h1 {
             font-size: 4em;
             margin-bottom: 20px;
@@ -274,12 +287,13 @@
             margin-bottom: 50px;
         }
 
-        /* AVANTAGES */
+        /* AVANTAGES (Grille) */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colonnes auto */
             gap: 30px;
         }
+        /* Carte Avantage */
         .card-neu {
             background: var(--bg-color);
             padding: 30px;
@@ -295,7 +309,7 @@
         }
         .card-neu h3 { margin-bottom: 15px; font-weight: 600; }
 
-        /* COMMENT CA MARCHE */
+        /* COMMENT CA MARCHE (Étapes) */
         .steps {
             display: flex;
             justify-content: space-around;
@@ -304,21 +318,21 @@
             margin-top: 50px;
         }
         .step { flex: 1; min-width: 250px; }
+        /* Cercle numéroté */
         .step-number {
             display: inline-block;
-            width: 60px;
-            height: 60px;
-            line-height: 60px;
+            width: 60px; height: 60px;
+            line-height: 60px; /* Centrage vertical */
             border-radius: 50%;
             background: var(--bg-color);
             color: var(--accent-color);
             font-size: 1.5em;
             font-weight: bold;
-            box-shadow: inset 5px 5px 10px var(--dark-shadow), inset -5px -5px 10px var(--light-shadow);
+            box-shadow: inset 5px 5px 10px var(--dark-shadow), inset -5px -5px 10px var(--light-shadow); /* Ombre interne */
             margin-bottom: 20px;
         }
 
-        /* LISTES */
+        /* LISTES (Badges / Pills) */
         .pill-container {
             display: flex;
             flex-wrap: wrap;
@@ -333,7 +347,7 @@
             box-shadow: 5px 5px 10px var(--dark-shadow), -5px -5px 10px var(--light-shadow);
         }
 
-        /* DASHBOARD & BUTTONS */
+        /* DASHBOARD & BOUTONS ASSOCIÉS */
         .dashboard-container {
             min-height: 80vh;
             display: flex;
@@ -378,7 +392,7 @@
         }
         .dashboard-card img { max-width: 100%; width: 400px; border-radius: 20px; }
 
-
+        /* PIED DE PAGE */
         footer {
             padding: 50px 20px;
             background: var(--bg-color);
@@ -387,6 +401,7 @@
         }
     </style>
 </head>
+
 <body id="top">
 
 <nav class="navbar">
@@ -396,7 +411,6 @@
         <span class="logo-text">Eco-Mobil</span>
     </div>
 
-
     <ul class="nav-links">
         <?php if(isset($_SESSION['Mail'])): ?>
             <li><a href="index.php">Tableau de bord</a></li>
@@ -404,6 +418,7 @@
             <li><a href="#top">Accueil</a></li>
             <li><a href="#presentation">Mission</a></li>
             <li><a href="#avantages">Avantages</a></li>
+            <li><a href="#how-it-works">Comment</a></li>
             <li><a href="#vehicules">Véhicules</a></li>
             <li><a href="#agences">Agences</a></li>
         <?php endif; ?>
@@ -426,7 +441,6 @@
                 Prêt pour votre prochaine aventure écologique ?
             </p>
 
-            <!-- C'EST ICI QUE LE LIEN A CHANGÉ VERS L'ÉTAPE 1 -->
             <a href="index.php?action=reservation_step1" class="dashboard-btn">
                 Nouvelle Réservation
             </a>

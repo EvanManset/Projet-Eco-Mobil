@@ -6,15 +6,13 @@
     <title>Réservation - Étape 1</title>
 
     <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
 
-    <!-- Polices et Icônes -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* =========================================
-           STYLE ORIGINAL (VERT / BASIQUE)
-           ========================================= */
+
         :root {
             --bg-color: #e0e0e0;
             --light-shadow: #ffffff;
@@ -74,7 +72,6 @@
             box-sizing: border-box;
         }
 
-        /* --- MODIFICATION ICI : Texte GRIS par défaut, VERT au survol --- */
         .btn-accueil {
             display: inline-flex;
             align-items: center;
@@ -149,7 +146,6 @@
 <body>
 
 <?php
-// LOGIQUE DE PRÉ-REMPLISSAGE (MÉMOIRE)
 $val_agence = $_POST['Agence'] ?? $_SESSION['reservation_step1']['Agence'] ?? '';
 $val_dd = $_POST['Date_Debut'] ?? $_SESSION['reservation_step1']['Date_Debut'] ?? '';
 $val_df = $_POST['Date_Fin'] ?? $_SESSION['reservation_step1']['Date_Fin'] ?? '';
@@ -159,7 +155,6 @@ $val_hf = $_POST['Heure_Fin'] ?? $_SESSION['reservation_step1']['Heure_Fin'] ?? 
 
 <div class="reservation-container">
 
-    <!-- Bouton Retour -->
     <a href="index.php" class="btn-accueil">
         <i class="fa-solid fa-arrow-left"></i> Retour au tableau de bord
     </a>
@@ -174,7 +169,6 @@ $val_hf = $_POST['Heure_Fin'] ?? $_SESSION['reservation_step1']['Heure_Fin'] ?? 
     <form action="index.php?action=reservation_step1" method="POST">
         <fieldset>
             <div class="form-grid">
-                <!-- Ligne 1 : Agence (Toute la largeur) -->
                 <div class="full-width">
                     <label>Agence de départ</label>
                     <select name="Agence" required>
@@ -197,7 +191,6 @@ $val_hf = $_POST['Heure_Fin'] ?? $_SESSION['reservation_step1']['Heure_Fin'] ?? 
                     <input type="Date" name="Date_Fin" value="<?= ($val_df) ?>" required />
                 </div>
 
-                <!-- Ligne 3 : Heure Début à gauche / Heure Fin à droite -->
                 <div>
                     <label>Heure Début</label>
                     <input type="Time" name="Heure_Debut" value="<?= ($val_hd) ?>" required />

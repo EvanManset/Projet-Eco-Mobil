@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EcoMobil</title>
+    <title>Réinitialisation - EcoMobil</title>
 
     <script src="/AP_SIO2_EcoMobil_1er_Semestre/js/showpass.js" defer></script>
 
@@ -12,6 +12,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Mêmes variables que Login.php */
         :root {
             --bg-color: #e0e0e0;
             --light-shadow: #ffffff;
@@ -32,7 +33,8 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--bg-color) 0%, #cacaca 50%, var(--bg-color) 100%);
             color: var(--main-text-color);
-            overflow: hidden;
+            overflow: auto;
+            padding: 20px 0;
         }
 
         .error-message-standalone {
@@ -57,21 +59,27 @@
             box-shadow: 10px 10px 20px var(--dark-shadow),
             -10px -10px 20px var(--light-shadow);
             text-align: center;
-            width: 350px;
+            width: 400px;
             max-width: 90%;
             transition: transform 0.3s ease;
         }
 
         .login-container h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: 2em;
+            margin-bottom: 20px;
             color: var(--main-text-color);
             text-shadow: 1px 1px 2px var(--light-shadow);
             font-weight: 700;
         }
 
+        .subtitle {
+            margin-bottom: 30px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
@@ -141,25 +149,6 @@
             transform: translateY(-50%) scale(0.98);
         }
 
-        .forgot-pass-container {
-            text-align: right;
-            margin-top: -15px;
-            margin-bottom: 25px;
-        }
-
-        .forgot-pass-link {
-            font-size: 0.85em;
-            color: #666;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .forgot-pass-link:hover {
-            color: var(--accent-color);
-            text-decoration: underline;
-        }
-
         .login-button {
             width: 100%;
             padding: 18px;
@@ -174,6 +163,7 @@
             -7px -7px 15px var(--light-shadow);
             transition: all 0.3s ease;
             text-transform: uppercase;
+            margin-top: 10px;
         }
 
         .login-button:hover {
@@ -196,76 +186,38 @@
 </head>
 <body>
 
-<?php
-// Gestion du statut bloqué ou non
-$isLocked = false;
-$wait = 0;
-// Récupère les tentatives pour l'affichage
-$attempts = isset($_SESSION['login_attempts']) ? $_SESSION['login_attempts'] : 0;
-
-if (isset($_SESSION['blocked_time'])) {
-    if (time() < $_SESSION['blocked_time']) {
-        $isLocked = true;
-        $wait = ceil(($_SESSION['blocked_time'] - time()) / 60);
-    } else {
-        unset($_SESSION['blocked_time']);
-        $_SESSION['login_attempts'] = 0;
-        $attempts = 0;
-        $isLocked = false;
-    }
-}
-?>
-
-<?php if ($isLocked): ?>
-    <!-- Cas 1 : Compte bloqué -->
-    <div class='error-message-standalone'>
-        ⛔ <span>Compte bloqué. Réessayez dans <?php echo $wait; ?> min.</span>
-    </div>
-<?php elseif ($attempts > 0 && $attempts < 4): ?>
-    <!-- Cas 2 : Erreur simple (mdp incorrect) -->
-    <div class="error-message-standalone">
-        ❌ <span>Identifiants incorrects (Tentative <?php echo $attempts; ?>/4)</span>
-    </div>
-<?php endif; ?>
-
-
 <div class="login-container">
-    <h2>Login Eco-Mobil</h2>
+    <h2>Réinitialisation</h2>
+    <p class="subtitle">Entrez votre email et définissez votre nouveau mot de passe.</p>
 
-    <!-- Le formulaire ne s'affiche que si l'utilisateur n'est PAS bloqué -->
-    <?php if (!$isLocked): ?>
-        <form action="index.php?action=loginpsession" method="POST">
+    <form action="index.php?action=ChangePassword" method="POST">
 
-            <div class="form-group">
-                <label for="Mail">E-mail</label>
-                <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com"
-                       value="<?php echo isset($_POST['Mail']) ? ($_POST['Mail']) : ''; ?>" required>
+        <!-- Champ Email pour identifier l'utilisateur -->
+        <div class="form-group">
+            <label for="Mail">Votre E-mail</label>
+            <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com" required>
+        </div>
+
+        <!-- Nouveau mot de passe (avec bouton Afficher) -->
+        <div class="form-group">
+            <label for="password">Nouveau mot de passe</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="NewPassword" placeholder="Minimum 8 caractères" required>
+                <button type="button" id="togglePassword" class="toggle-btn">Afficher</button>
             </div>
+        </div>
 
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label for="password">Mot de passe</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" name="Mot_de_Passe_Securiser" placeholder="Entrez votre mot de passe" required>
-                    <button type="button" id="togglePassword" class="toggle-btn">Afficher</button>
-                </div>
-            </div>
+        <!-- Confirmation -->
+        <div class="form-group">
+            <label for="ConfirmPassword">Confirmer le mot de passe</label>
+            <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="Répétez le mot de passe" required>
+        </div>
 
-            <div class="forgot-pass-container">
-                <a href="index.php?action=forgotpassword" class="forgot-pass-link">Mot de passe oublié ?</a>
-            </div>
-
-            <button type="submit" class="login-button">Se connecter</button>
-        </form>
-    <?php else: ?>
-        <!-- Si bloqué, on affiche le bouton rafraichir -->
-        <p style="margin-top:20px; color:#555;">Le formulaire réapparaîtra automatiquement une fois le délai écoulé.</p>
-        <button onclick="window.location.href='index.php?action=loginpsession';" class="login-button" style="margin-top:10px; background:#888;">Rafraîchir la page</button>
-    <?php endif; ?>
+        <button type="submit" class="login-button">Valider</button>
+    </form>
 
     <div class="links">
-        <a href="index.php">Retour à l'accueil</a>
-        <span>•</span>
-        <a href="index.php?action=signupsession">S'inscrire</a>
+        <a href="index.php?action=loginpsession">Annuler et se connecter</a>
     </div>
 </div>
 

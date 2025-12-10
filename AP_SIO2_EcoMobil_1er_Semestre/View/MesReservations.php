@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Réservations - EcoMobil</title>
+
     <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -82,7 +84,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            /* MODIFICATION ICI : On force le tableau à être plus large */
             min-width: 1050px;
         }
 
@@ -117,6 +118,7 @@
         .badge-en-cours { background: #cce5ff; color: #004085; }
         .badge-terminee { background: #e2e3e5; color: #383d41; }
         .badge-annulee { background: #f8d7da; color: #721c24; }
+        .badge-reservee { background: #fff3cd; color: #856404; }
 
         /* Style Demande Spéciale */
         .demande-speciale-box {
@@ -168,7 +170,7 @@
             <h2>Aucune réservation pour le moment 🍃</h2>
             <p>Vous n'avez pas encore effectué de trajet avec nous.</p>
             <br>
-            <a href="index.php?action=reservationsession" class="btn-back" style="background:var(--accent-color); color:white;">Réserver un véhicule</a>
+            <a href="index.php?action=reservation_step1" class="btn-back" style="background:var(--accent-color); color:white;">Réserver un véhicule</a>
         </div>
     <?php else: ?>
 
@@ -187,12 +189,22 @@
                 </thead>
                 <tbody>
                 <?php foreach ($mesReservations as $resa): ?>
+                    <?php
+                    // Préparation des données d'affichage
+                    $type = isset($resa['libelle_Type']) ? str_replace('_', ' ', $resa['libelle_Type']) : 'Véhicule';
+                    $nb = isset($resa['nb_participants']) ? $resa['nb_participants'] : 1;
+                    ?>
                     <tr>
                         <td>
-                            <strong style="white-space: nowrap;"><?php echo ($resa['Marque'] . ' ' . $resa['Modele']); ?></strong><br>
-
-                            <small style="color:#666;">
-                                Type : <?php echo isset($resa['libelle_Type']) ? str_replace('_', ' ', $resa['libelle_Type']) : 'Standard'; ?>
+                            <!-- Affichage adapté : Quantité ET Type sur 2 lignes -->
+                            <!-- Couleur #333 (Gris très foncé) pour le nombre -->
+                            <strong style="white-space: nowrap; font-size: 1.1em; color: #333;">
+                                <?php echo $nb; ?> Véhicule(s)
+                            </strong>
+                            <br>
+                            <!-- Couleur #333 (Gris très foncé) pour le type aussi, pour être IDENTIQUE -->
+                            <small style="color: #333; font-weight: 600; font-size: 0.9em;">
+                                <?php echo ucfirst($type); ?>
                             </small>
                         </td>
                         <td><?php echo ($resa['nom_Agence']); ?></td>
@@ -225,6 +237,7 @@
                             if(strpos($statut, 'confirm') !== false) $class = 'badge-confirmee';
                             if(strpos($statut, 'cours') !== false) $class = 'badge-en-cours';
                             if(strpos($statut, 'annul') !== false) $class = 'badge-annulee';
+                            if(strpos($statut, 'réservée') !== false) $class = 'badge-reservee';
                             ?>
                             <span class="badge <?php echo $class; ?>"><?php echo ($resa['statut_reservation']); ?></span>
                         </td>
@@ -235,12 +248,17 @@
         </div>
 
         <?php foreach ($mesReservations as $resa): ?>
+            <?php
+            $type = isset($resa['libelle_Type']) ? str_replace('_', ' ', $resa['libelle_Type']) : 'Véhicule';
+            $nb = isset($resa['nb_participants']) ? $resa['nb_participants'] : 1;
+            ?>
             <div class="mobile-card">
-                <h3><?php echo ($resa['Marque'] . ' ' . $resa['Modele']); ?></h3>
-
-                <p style="font-size: 0.9em; color: #777; margin-top:0;">
-                    Type : <?php echo isset($resa['libelle_Type']) ? str_replace('_', ' ', $resa['libelle_Type']) : 'Standard'; ?>
-                </p>
+                <!-- Titre Mobile adapté : Couleur forcée à #333 pour uniformité -->
+                <h3 style="color: #333;"><?php echo $nb; ?> Véhicule(s)</h3>
+                <!-- Type Mobile : Couleur #333 -->
+                <div style="color: #333; font-weight: 600; margin-bottom: 10px;">
+                    <?php echo ucfirst($type); ?>
+                </div>
 
                 <p><strong>Agence :</strong> <?php echo ($resa['nom_Agence']); ?></p>
                 <p><strong>Départ :</strong> <?php echo date("d/m/Y H:i", strtotime($resa['date_debut_location'])); ?></p>

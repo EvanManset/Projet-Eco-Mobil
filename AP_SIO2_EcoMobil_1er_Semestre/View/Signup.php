@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - EcoMobil</title>
 
+    <script src="/AP_SIO2_EcoMobil_1er_Semestre/js/showpass.js" defer></script>
+
     <link rel="icon" href="assets/Eco-Mobil.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/Eco-Mobil.png">
 
@@ -19,7 +21,8 @@
             --dark-shadow: #a3b1c6;
             --main-text-color: #333;
             --accent-color: #71b852;
-            --accent-hover: #ffffff;
+            /* CORRECTION ICI : Vert foncé au lieu de blanc (#ffffff) */
+            --accent-hover: #5fa73d;
             --accent-active: #4c8830;
         }
 
@@ -27,7 +30,7 @@
         body {
             margin: 0;
             display: flex;
-            flex-direction: column; /* Permet d'aligner le conteneur au centre */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -41,15 +44,14 @@
         }
 
         .error-message-standalone {
-            color: #c0392b; /* Rouge foncé */
-            background: #ffe6e6; /* Fond rose très pâle */
+            color: #c0392b;
+            background: #ffe6e6;
             padding: 12px 25px;
             border-radius: 15px;
-            margin-bottom: 20px; /* Espace entre le message et le bloc de login */
+            margin-bottom: 20px;
             font-weight: 500;
             font-size: 1em;
             text-align: center;
-            /* Neumorphisme pour le message */
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1),
             -5px -5px 10px var(--light-shadow);
             max-width: 400px;
@@ -85,14 +87,17 @@
         }
 
         .signup-container h2 {
-            font-size: 2.5em;
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.4em;
             margin-bottom: 30px;
-            color: var(--main-text-color);
-            text-shadow: 1px 1px 2px var(--light-shadow);
+            color: #222;
+            /* CORRECTION ICI : 700 au lieu de 800 pour réduire l'effet "trop gras" */
             font-weight: 700;
+            text-shadow: none;
+            letter-spacing: -0.5px;
         }
 
-        /* Form Group (Label + Input) */
+        /* Form Group */
         .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -101,9 +106,15 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--main-text-color);
+            font-weight: 700;
+            color: #444;
             font-size: 0.95em;
+        }
+
+        /* --- Style du Wrapper pour le mot de passe --- */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         /* Input Fields */
@@ -122,6 +133,12 @@
             font-weight: 400;
         }
 
+        /* Ajustement spécifique pour l'input mot de passe */
+        .password-wrapper input {
+            padding-right: 90px;
+            width: calc(100% - 110px);
+        }
+
         .form-group input::placeholder {
             color: rgba(51, 51, 51, 0.6);
         }
@@ -133,6 +150,36 @@
             transform: scale(1.01);
         }
 
+        /* --- Nouveau bouton Toggle Neumorphique --- */
+        .toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-color);
+            border: none;
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--accent-color);
+            cursor: pointer;
+            box-shadow: 2px 2px 5px var(--dark-shadow),
+            -2px -2px 5px var(--light-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn:hover {
+            color: var(--accent-hover);
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        .toggle-btn:active {
+            box-shadow: inset 2px 2px 5px var(--dark-shadow),
+            inset -2px -2px 5px var(--light-shadow);
+            transform: translateY(-50%) scale(0.98);
+        }
+
         /* Password Requirements */
         .password-requirements {
             text-align: left;
@@ -140,7 +187,6 @@
             padding: 20px;
             background: var(--bg-color);
             border-radius: 18px;
-            /* Ombre plus douce */
             box-shadow: 4px 4px 10px var(--dark-shadow),
             -4px -4px 10px var(--light-shadow);
         }
@@ -149,7 +195,7 @@
             margin: 0 0 12px 0;
             font-weight: 700;
             font-size: 0.95em;
-            color: var(--accent-active); /* Couleur accentuée pour le titre */
+            color: var(--accent-active);
         }
 
         .password-requirements ul {
@@ -157,12 +203,13 @@
             padding-left: 20px;
             font-size: 0.88em;
             line-height: 1.6;
-            list-style-type: '🌿 '; /* Utilisation d'un caractère simple */
+            list-style-type: '🌿 ';
         }
 
         .password-requirements li {
             margin-bottom: 5px;
         }
+
         /* Signup Button */
         .signup-button {
             width: 100%;
@@ -172,8 +219,8 @@
             border-radius: 25px;
             background: var(--accent-color);
             color: white;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1.1em;
+            font-weight: 700;
             cursor: pointer;
             box-shadow: 7px 7px 15px var(--dark-shadow),
             -7px -7px 15px var(--light-shadow);
@@ -183,6 +230,7 @@
         }
 
         .signup-button:hover {
+            /* Cela utilisera maintenant la bonne couleur verte au lieu du blanc */
             background: var(--accent-hover);
             box-shadow: 10px 10px 20px var(--dark-shadow),
             -10px -10px 20px var(--light-shadow);
@@ -230,6 +278,14 @@
     </style>
 </head>
 <body>
+
+<!-- BLOC D'ERREUR AJOUTÉ ICI -->
+<?php if (isset($error_msg)): ?>
+    <div class="error-message-standalone">
+        <span><?php echo $error_msg; ?></span>
+    </div>
+<?php endif; ?>
+
 <div class="signup-container">
     <h2>Inscription Eco-Mobil</h2>
     <form action="/AP_SIO2_EcoMobil_1er_Semestre/index.php?action=signupsession" method="POST">
@@ -238,36 +294,39 @@
             <div class="form-group">
                 <label for="Prenom">Prénom</label>
                 <input type="text" id="Prenom" name="Prenom" placeholder="John"
-                       value="<?php echo isset($_POST['Prenom']) ? ($_POST['Prenom']) : ''; ?>" required>
+                       value="<?php echo isset($_POST['Prenom']) ? htmlspecialchars($_POST['Prenom']) : ''; ?>" required>
             </div>
             <div class="form-group">
                 <label for="Nom">Nom</label>
                 <input type="text" id="Nom" name="Nom" placeholder="Doe"
-                       value="<?php echo isset($_POST['Nom']) ? ($_POST['Nom']) : ''; ?>" required>
+                       value="<?php echo isset($_POST['Nom']) ? htmlspecialchars($_POST['Nom']) : ''; ?>" required>
             </div>
         </div>
 
         <div class="form-group">
             <label for="Telephone">Téléphone</label>
             <input type="tel" id="Telephone" name="Telephone" placeholder="07...."
-                   value="<?php echo isset($_POST['Telephone']) ? ($_POST['Telephone']) : ''; ?>" required>
+                   value="<?php echo isset($_POST['Telephone']) ? htmlspecialchars($_POST['Telephone']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
             <label for="Adresse">Adresse</label>
             <input type="text" id="Adresse" name="Adresse" placeholder="12 rue des Érables"
-                   value="<?php echo isset($_POST['Adresse']) ? ($_POST['Adresse']) : ''; ?>" required>
+                   value="<?php echo isset($_POST['Adresse']) ? htmlspecialchars($_POST['Adresse']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
             <label for="Mail">E-mail</label>
             <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com"
-                   value="<?php echo isset($_POST['Mail']) ? ($_POST['Mail']) : ''; ?>" required>
+                   value="<?php echo isset($_POST['Mail']) ? htmlspecialchars($_POST['Mail']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="Mot_de_Passe_Securiser">Mot de passe</label>
-            <input type="password" id="Mot_de_Passe_Securiser" name="Mot_de_Passe_Securiser" placeholder="Mot de passe sécurisé" required>
+            <label for="password">Mot de passe</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="Mot_de_Passe_Securiser" placeholder="Mot de passe sécurisé" required>
+                <button type="button" id="togglePassword" class="toggle-btn">Afficher</button>
+            </div>
         </div>
 
         <div class="password-requirements">

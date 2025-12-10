@@ -49,6 +49,16 @@ CREATE TABLE Client_connecter (
     Date_de_Creation DATETIME
 );
 
+CREATE TABLE Participants (
+	id_Participants INT PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(50),
+    Prenom VARCHAR(50),
+    Age INT,
+    id_reservation INT,
+    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation)
+);
+    
+    
 CREATE TABLE Reservation (
     id_Reservation INT PRIMARY KEY AUTO_INCREMENT,
     Date_Reservation DATETIME,
