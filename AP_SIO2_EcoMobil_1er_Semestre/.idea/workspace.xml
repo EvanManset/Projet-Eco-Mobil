@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7c6c16c0-d4ae-443c-b1c4-37992762d735" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,24 +13,28 @@
   <component name="ComposerSettings">
     <execution />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="35kQESAXmDxAUDGgh3Tu9dWgwwJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/evanm/OneDrive - Saint Michel/2ème Année BTS SIO/BLOC3/MVC/TP/OneDrivePHPSIO2/AP_SIO2_EcoMobil_1er_Semestre",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/evanm/OneDrive - Saint Michel/2ème Année BTS SIO/BLOC3/MVC/TP/OneDrivePHPSIO2/AP_SIO2_EcoMobil_1er_Semestre&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -44,6 +51,9 @@
       <option name="presentableId" value="Default" />
       <updated>1763651477560</updated>
       <workItem from="1763651478807" duration="13000" />
+      <workItem from="1765635091542" duration="118000" />
+      <workItem from="1765635211070" duration="369000" />
+      <workItem from="1765635682872" duration="7000" />
     </task>
     <servers />
   </component>
