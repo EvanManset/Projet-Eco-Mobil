@@ -53,9 +53,10 @@ CREATE TABLE Participants (
 	id_Participants INT PRIMARY KEY AUTO_INCREMENT,
     Nom VARCHAR(50),
     Prenom VARCHAR(50),
-    Age INT,
     id_reservation INT,
-    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation)
+    id_vehicule INT,
+    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation),
+    FOREIGN KEY (id_vehicule) REFERENCES vehicule(id_vehicule)
 );
     
     

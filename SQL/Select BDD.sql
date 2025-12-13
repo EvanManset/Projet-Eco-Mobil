@@ -12,6 +12,8 @@ select * from participants;
 
 TRUNCATE TABLE participants;
 
+DROP TABLE IF EXISTS Participants;
+
 -- delete from client_connecter
 -- where id_Client = ;
 

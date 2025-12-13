@@ -191,13 +191,14 @@ function IsVehiculeLibre($id_vehicule, $date_debut, $date_fin)
     return $row['nb'] == 0;
 }
 
+
 // MODIFICATION : Calcul le stock dynamique réel
 function GetDispoParType()
 {
     $bdd = dbconnect();
 
-    // Compte tous les véhicules disponibles (statut table véhicule)
-    // MOINS ceux qui sont actuellement liés à une réservation active dans la table Participants
+    // Compte tous les véhicules disponibles
+    // MOINS ceux liés à une réservation active (ET dont l'ID n'est pas NULL)
     $req = "SELECT tv.libelle_Type, COUNT(v.id_Vehicule) as nb
             FROM vehicule v
             INNER JOIN type_vehicule tv ON v.id_type_vehicule = tv.id_Type_Vehicule
@@ -207,6 +208,7 @@ function GetDispoParType()
                 FROM Participants p
                 INNER JOIN Reservation r ON p.id_reservation = r.id_Reservation
                 WHERE r.statut_reservation IN ('Réservée', 'En cours', 'confirmée')
+                AND p.id_vehicule IS NOT NULL
             )
             GROUP BY tv.libelle_Type";
 
