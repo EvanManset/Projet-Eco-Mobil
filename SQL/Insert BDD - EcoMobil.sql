@@ -1,5 +1,10 @@
 USE Ecomobil;
 
+ALTER TABLE Client_connecter ADD Role VARCHAR(20) DEFAULT 'client';
+
+INSERT INTO Client_connecter (Nom, Prenom, Telephone, Adresse, Mail, Mot_de_Passe_Securiser, Date_de_Creation, Role)
+VALUES ('System', 'Admin', '0000000000', 'Siège Social', 'admin@ecomobil.com', '$2y$10$8MNvjvlWL6j6pdXb42aw/ePKoXvw3Cw94cR4/4ksyMmtHx/EMEpcK', NOW(), 'admin');
+
 -- Table des tarifs
 INSERT INTO Tarif (Tarif_horaire, Tarif_Demi_Journee, Tarif_Journee) VALUES
 (8.00, 30.00, 40.00),   -- Vélo électrique urbain

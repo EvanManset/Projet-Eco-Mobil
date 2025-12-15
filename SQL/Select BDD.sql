@@ -12,6 +12,8 @@ select * from participants;
 
 TRUNCATE TABLE participants;
 
+TRUNCATE TABLE logs;
+
 -- delete from client_connecter
 -- where id_Client = ;
 

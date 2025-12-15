@@ -53,9 +53,10 @@ CREATE TABLE Participants (
 	id_Participants INT PRIMARY KEY AUTO_INCREMENT,
     Nom VARCHAR(50),
     Prenom VARCHAR(50),
-    Age INT,
     id_reservation INT,
-    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation)
+    id_vehicule INT,
+    FOREIGN KEY (id_Reservation) REFERENCES Reservation(id_Reservation),
+    FOREIGN KEY (id_vehicule) REFERENCES vehicule(id_vehicule)
 );
     
     
@@ -74,4 +75,10 @@ CREATE TABLE Reservation (
     FOREIGN KEY (id_Client) REFERENCES Client_connecter(id_Client),
     FOREIGN KEY (id_Vehicule) REFERENCES Vehicule(id_Vehicule),
     FOREIGN KEY (id_Tarif) REFERENCES Tarif(id_Tarif)
+);
+
+CREATE TABLE Logs (
+    id_Log INT AUTO_INCREMENT PRIMARY KEY,
+    message VARCHAR(255) NOT NULL,
+    date_log DATETIME DEFAULT CURRENT_TIMESTAMP
 );

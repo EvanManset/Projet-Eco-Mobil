@@ -51,6 +51,8 @@ function Loginuser($Mail, $Mot_de_Passe_Securiser)
         $_SESSION['Mail'] = $user['Mail'];
         $_SESSION['Nom'] = $user['Nom'];
         $_SESSION['Prenom'] = $user['Prenom'];
+        $_SESSION['Role'] = $user['Role'];
+
         return true;
     } else {
         $_SESSION['login_attempts']++;
@@ -118,6 +120,47 @@ function CreateReservationGroup($mail, $agence, $type, $debut, $fin, $h_debut, $
     return true;
 }
 
+function ShowAdminDashboard() {
+    // Vérification Admin
+    if (!isset($_SESSION['Role']) || $_SESSION['Role'] !== 'admin') {
+        header('Location: index.php');
+        exit();
+    }
+
+    $stats = GetAdminStatsGlobales();
+    $agences = GetAdminAgencesStatus();
+    $reservations = GetReservationsRecentes();
+    $participants = GetParticipantsRecents();
+    $parc = GetAdminParcStatus();
+    $logs = GetLogs();
+
+    require('view/AdminDashboard.php');
+}
+
+function ShowAdminEditPage($id) {
+    if (!isset($_SESSION['Role']) || $_SESSION['Role'] !== 'admin') {
+        header('Location: index.php'); exit();
+    }
+    $reservation = GetOneReservation($id);
+    if (!$reservation) {
+        header('Location: index.php?action=admin'); exit();
+    }
+    require('view/AdminEditReservation.php');
+}
+
+function ProcessAdminUpdateRes($id, $statut) {
+    if (!isset($_SESSION['Role']) || $_SESSION['Role'] !== 'admin') return;
+    AdminUpdateStatutReservation($id, $statut);
+    header('Location: index.php?action=admin');
+    exit();
+}
+
+function ProcessAdminDeleteRes($id) {
+    if (!isset($_SESSION['Role']) || $_SESSION['Role'] !== 'admin') return;
+    AdminDeleteReservation($id);
+    header('Location: index.php?action=admin');
+    exit();
+}
 
 // ============================================================
 // FONCTION UTILITAIRE : VALIDATION DE MOT DE PASSE
@@ -140,7 +183,7 @@ function PasswordValide($password) {
         return false;
     }
     // Interdit une liste noire de mots de passe courants (123456, password, admin, etc...)
-    if (preg_match('/123456|123456789|12345678|password|qwerty123|qwerty1|111111|12345|secret|123123|1234567890|1234567|000000|abc123|password1|iloveyou|dragon|monkey|letmein|qwerty|admin/i', $password)) {
+    if (preg_match('/123456|123456789|12345678|password|qwerty123|qwerty1|111111|12345|secret|123123|1234567890|1234567|000000|abc123|password1|iloveyou|dragon|monkey|letmein|qwerty|admin|admin123|admin!123/i', $password)) {
         return false;
     }
     // Interdit les espaces
