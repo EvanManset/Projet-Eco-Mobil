@@ -146,11 +146,22 @@
 <body>
 
 <?php
+
 $val_agence = $_POST['Agence'] ?? $_SESSION['reservation_step1']['Agence'] ?? '';
+// Assigne à la variable l'agence issue du formulaire (POST), ou à défaut celle de la session, ou une chaîne vide.
+
 $val_dd = $_POST['Date_Debut'] ?? $_SESSION['reservation_step1']['Date_Debut'] ?? '';
+// Récupère la date de début depuis les données envoyées en POST, sinon depuis la session, sinon définit une valeur vide.
+
 $val_df = $_POST['Date_Fin'] ?? $_SESSION['reservation_step1']['Date_Fin'] ?? '';
+// Tente de récupérer la date de fin via la méthode POST, puis via la variable de session, ou initialise à vide.
+
 $val_hd = $_POST['Heure_Debut'] ?? $_SESSION['reservation_step1']['Heure_Debut'] ?? '';
+// Cherche l'heure de début dans le formulaire soumis, à défaut dans les données de session stockées, ou retourne vide.
+
 $val_hf = $_POST['Heure_Fin'] ?? $_SESSION['reservation_step1']['Heure_Fin'] ?? '';
+// Affecte l'heure de fin à partir du POST, sinon de la sauvegarde en session, sinon utilise une chaîne de caractères vide.
+
 ?>
 
 <div class="reservation-container">

@@ -314,25 +314,43 @@
 
             <div class="stock-container">
                 <?php
+
                 // Configuration Icônes EMOJIS
                 $iconsConfig = [
+                // Déclaration d'un tableau associatif nommé $iconsConfig.
                         'Vélo_électrique_urbain' => '⚡ 🚲',
+                    // Associe l'émoji d'un éclair et d'un vélo à la clé "Vélo_électrique_urbain".
                         'VTT_électrique'         => '⚡ 🚴',
+                    // Associe l'émoji d'un éclair et d'un cycliste à la clé "VTT_électrique".
                         'Hoverboard'             => '  🔹',
+                    // Associe un losange bleu à la clé "Hoverboard".
                         'Trottinette_électrique' => '⚡ 🛴',
+                    // Associe l'émoji d'un éclair et d'une trottinette à la clé "Trottinette_électrique".
                         'Gyropode'               => '  🔹',
+                    // Associe un losange bleu à la clé "Gyropode".
                         'Skateboard_électrique'  => '⚡ 🛹'
+                    // Associe l'émoji d'un éclair et d'un skateboard à la clé "Skateboard_électrique".
                 ];
+                // Fermeture du tableau de configuration des icônes.
 
                 if (isset($dispoStats) && !empty($dispoStats)) {
+                // Vérifie si la variable $dispoStats existe et si elle n'est pas vide avant de tenter l'affichage.
                     foreach ($dispoStats as $stat) {
+                        // Parcourt chaque élément du tableau $dispoStats, stockant l'élément courant dans $stat.
                         $key = str_replace(' ', '_', $stat['libelle_Type']);
+                        // Remplace les espaces par des underscores dans le libellé du type pour correspondre aux clés de $iconsConfig.
                         $icon = isset($iconsConfig[$key]) ? $iconsConfig[$key] : '🚗';
+                        // Attribue l'icône configurée si elle existe, sinon utilise l'émoji voiture par défaut via une condition ternaire.
                         echo "<div class='stock-badge'>{$icon} {$stat['libelle_Type']} <span>({$stat['dispo']})</span></div>";
+                        // Affiche une balise HTML div contenant l'icône, le nom du véhicule et le nombre disponible entre parenthèses.
                     }
+                    // Fin de la boucle foreach.
                 } else {
+                // S'exécute si $dispoStats n'est pas défini ou est vide.
                     echo "<div class='stock-badge'>Aucune info de stock</div>";
+                    // Affiche un message indiquant l'absence d'informations sur les stocks.
                 }
+                // Fin du bloc conditionnel if/else.
                 ?>
             </div>
 

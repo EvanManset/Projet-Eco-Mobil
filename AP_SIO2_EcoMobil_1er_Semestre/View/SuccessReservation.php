@@ -251,30 +251,60 @@
         </div>
         <h2>Réservation Confirmée !</h2>
     </div>
-
     <?php
+
     // 1. Récupération robuste des données
+
     $source_data = [];
+    // Initialise une variable $source_data sous forme de tableau vide.
+
     if (isset($s1)) $source_data = $s1;
+    // Si la variable $s1 existe, elle devient la source de données principale.
+
     elseif (isset($step1)) $source_data = $step1;
+    // Sinon, si $step1 existe, elle est utilisée comme source de données.
+
     elseif (isset($_SESSION['reservation_step1'])) $source_data = $_SESSION['reservation_step1'];
+    // Sinon, tente de récupérer les données stockées dans la variable de session 'reservation_step1'.
+
     // Fallback si on vient de recharger la page et que les infos sont dans temp_ics
+
     elseif (isset($_SESSION['temp_ics'])) $source_data = $_SESSION['temp_ics'];
+    // En dernier recours, utilise les données de session 'temp_ics' si elles sont présentes.
 
     // Extraction avec valeurs par défaut
     $typeRaw = $_POST['Type_Vehicule'] ?? $Type_Vehicule ?? $source_data['Vehicule'] ?? 'Véhicule';
+    // Récupère le type de véhicule depuis POST, une variable existante, la source de données, ou définit 'Véhicule' par défaut.
+
     $agence = $source_data['Agence'] ?? $Agence ?? 'Agence inconnue';
+    // Récupère le nom de l'agence depuis la source ou une variable, sinon utilise la chaîne 'Agence inconnue'.
+
     $rawDateD = $source_data['Date_Debut'] ?? $Date_Debut ?? null;
+    // Récupère la date de début brute ou affecte la valeur null si elle est absente.
+
     $rawDateF = $source_data['Date_Fin'] ?? $Date_Fin ?? null;
+    // Récupère la date de fin brute ou affecte la valeur null si elle est absente.
+
     $heureD = $source_data['Heure_Debut'] ?? $Heure_Debut ?? '--:--';
+    // Récupère l'heure de début ou utilise un masque d'affichage vide '--:--'.
+
     $heureF = $source_data['Heure_Fin'] ?? $Heure_Fin ?? '--:--';
+    // Récupère l'heure de fin ou utilise un masque d'affichage vide '--:--'.
 
     // 2. Formatage
+
     $typeLabel = str_replace('_', ' ', $typeRaw);
+    // Remplace les underscores par des espaces dans le type de véhicule pour un rendu plus lisible.
+
     $dateD = $rawDateD ? date("d/m/Y", strtotime($rawDateD)) : '--/--/----';
+    // Formate la date de début en format français (JJ/MM/AAAA) si elle existe, sinon affiche un masque vide.
+
     $dateF = $rawDateF ? date("d/m/Y", strtotime($rawDateF)) : '--/--/----';
+    // Formate la date de fin en format français (JJ/MM/AAAA) si elle existe, sinon affiche un masque vide.
 
     $nb = isset($nb_reservations) ? $nb_reservations : 1;
+    // Définit le nombre de réservations à partir de la variable existante, sinon initialise à 1 par défaut.
+
     ?>
 
     <div class="details-container">

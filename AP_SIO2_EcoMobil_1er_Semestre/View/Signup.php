@@ -279,7 +279,6 @@
 </head>
 <body>
 
-<!-- BLOC D'ERREUR AJOUTÉ ICI -->
 <?php if (isset($error_msg)): ?>
     <div class="error-message-standalone">
         <span><?php echo $error_msg; ?></span>
@@ -294,31 +293,31 @@
             <div class="form-group">
                 <label for="Prenom">Prénom</label>
                 <input type="text" id="Prenom" name="Prenom" placeholder="John"
-                       value="<?php echo isset($_POST['Prenom']) ? htmlspecialchars($_POST['Prenom']) : ''; ?>" required>
+                       value="<?php echo isset($_POST['Prenom']) ? ($_POST['Prenom']) : ''; ?>" required>
             </div>
             <div class="form-group">
                 <label for="Nom">Nom</label>
                 <input type="text" id="Nom" name="Nom" placeholder="Doe"
-                       value="<?php echo isset($_POST['Nom']) ? htmlspecialchars($_POST['Nom']) : ''; ?>" required>
+                       value="<?php echo isset($_POST['Nom']) ? ($_POST['Nom']) : ''; ?>" required>
             </div>
         </div>
 
         <div class="form-group">
             <label for="Telephone">Téléphone</label>
             <input type="tel" id="Telephone" name="Telephone" placeholder="07...."
-                   value="<?php echo isset($_POST['Telephone']) ? htmlspecialchars($_POST['Telephone']) : ''; ?>" required>
+                   value="<?php echo isset($_POST['Telephone']) ? ($_POST['Telephone']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
             <label for="Adresse">Adresse</label>
             <input type="text" id="Adresse" name="Adresse" placeholder="12 rue des Érables"
-                   value="<?php echo isset($_POST['Adresse']) ? htmlspecialchars($_POST['Adresse']) : ''; ?>" required>
+                   value="<?php echo isset($_POST['Adresse']) ? ($_POST['Adresse']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
             <label for="Mail">E-mail</label>
             <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com"
-                   value="<?php echo isset($_POST['Mail']) ? htmlspecialchars($_POST['Mail']) : ''; ?>" required>
+                   value="<?php echo isset($_POST['Mail']) ? ($_POST['Mail']) : ''; ?>" required>
         </div>
 
         <div class="form-group">
