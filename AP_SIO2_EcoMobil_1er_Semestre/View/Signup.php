@@ -21,7 +21,6 @@
             --dark-shadow: #a3b1c6;
             --main-text-color: #333;
             --accent-color: #71b852;
-            /* CORRECTION ICI : Vert foncé au lieu de blanc (#ffffff) */
             --accent-hover: #5fa73d;
             --accent-active: #4c8830;
         }

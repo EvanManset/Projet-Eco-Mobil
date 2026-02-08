@@ -192,13 +192,11 @@
 
     <form action="index.php?action=ChangePassword" method="POST">
 
-        <!-- Champ Email pour identifier l'utilisateur -->
         <div class="form-group">
             <label for="Mail">Votre E-mail</label>
             <input type="email" id="Mail" name="Mail" placeholder="exemple@domaine.com" required>
         </div>
 
-        <!-- Nouveau mot de passe (avec bouton Afficher) -->
         <div class="form-group">
             <label for="password">Nouveau mot de passe</label>
             <div class="password-wrapper">
