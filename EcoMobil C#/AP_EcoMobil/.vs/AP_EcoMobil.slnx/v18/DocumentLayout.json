@@ -1,0 +1,121 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|c:\\users\\evanm\\onedrive - saint michel\\2\u00E8me ann\u00E9e bts sio\\ap\\projet\\ecomobil c#\\ap_ecomobil\\models\\statistiqueduree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|solutionrelative:models\\statistiqueduree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|c:\\users\\evanm\\onedrive - saint michel\\2\u00E8me ann\u00E9e bts sio\\ap\\projet\\ecomobil c#\\ap_ecomobil\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|c:\\users\\evanm\\onedrive - saint michel\\2\u00E8me ann\u00E9e bts sio\\ap\\projet\\ecomobil c#\\ap_ecomobil\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|c:\\users\\evanm\\onedrive - saint michel\\2\u00E8me ann\u00E9e bts sio\\ap\\projet\\ecomobil c#\\ap_ecomobil\\models\\statistiquevehicule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|solutionrelative:models\\statistiquevehicule.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|c:\\users\\evanm\\onedrive - saint michel\\2\u00E8me ann\u00E9e bts sio\\ap\\projet\\ecomobil c#\\ap_ecomobil\\models\\reservationdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|solutionrelative:models\\reservationdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|c:\\users\\evanm\\onedrive - saint michel\\2\u00E8me ann\u00E9e bts sio\\ap\\projet\\ecomobil c#\\ap_ecomobil\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6B5AC7A-CD04-52A4-3E2A-5B06D38989B4}|AP_EcoMobil.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "StatistiqueDuree.cs",
+              "DocumentMoniker": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\Models\\StatistiqueDuree.cs",
+              "RelativeDocumentMoniker": "Models\\StatistiqueDuree.cs",
+              "ToolTip": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\Models\\StatistiqueDuree.cs",
+              "RelativeToolTip": "Models\\StatistiqueDuree.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T08:52:05.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StatistiqueVehicule.cs",
+              "DocumentMoniker": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\Models\\StatistiqueVehicule.cs",
+              "RelativeDocumentMoniker": "Models\\StatistiqueVehicule.cs",
+              "ToolTip": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\Models\\StatistiqueVehicule.cs",
+              "RelativeToolTip": "Models\\StatistiqueVehicule.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T08:45:38.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-03-18T14:16:55.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\ViewModels\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MainViewModel.cs",
+              "ToolTip": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\ViewModels\\MainViewModel.cs",
+              "RelativeToolTip": "ViewModels\\MainViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T08:13:24.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReservationDetail.cs",
+              "DocumentMoniker": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\Models\\ReservationDetail.cs",
+              "RelativeDocumentMoniker": "Models\\ReservationDetail.cs",
+              "ToolTip": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\Models\\ReservationDetail.cs",
+              "RelativeToolTip": "Models\\ReservationDetail.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T08:08:54.439Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\evanm\\OneDrive - Saint Michel\\2\u00E8me Ann\u00E9e BTS SIO\\AP\\Projet\\EcoMobil C#\\AP_EcoMobil\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T08:05:30.335Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
